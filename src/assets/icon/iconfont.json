@@ -1,0 +1,23 @@
+{
+  "id": "1937104",
+  "name": "coding88",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "添加个人图标",
+  "glyphs": [
+    {
+      "icon_id": "2116292",
+      "name": "扫一扫",
+      "font_class": "richscan_icon",
+      "unicode": "e661",
+      "unicode_decimal": 58977
+    },
+    {
+      "icon_id": "4487894",
+      "name": "数据",
+      "font_class": "shuju",
+      "unicode": "e694",
+      "unicode_decimal": 59028
+    }
+  ]
+}

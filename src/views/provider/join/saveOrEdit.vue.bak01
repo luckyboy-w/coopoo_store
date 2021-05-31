@@ -1,0 +1,573 @@
+<template>
+	<div class="update-form-panel">
+		<el-form ref="dataForm" :model="dataForm" label-width="130px">
+			<el-form-item label="服务商名称" required>
+				<el-input v-model="dataForm.provinceName"></el-input>
+			</el-form-item>
+			<el-form-item label="服务商等级" required>
+				<el-select v-model="dataForm.provinceRole" @change="switchLevel">
+					<el-option
+						v-for="item in provinceRoleList"
+						:key="item.id"
+						:value-key="item.providerLevelLabel"
+						:label="item.providerLevelLabel"
+						:value="item.id"
+					></el-option>
+				</el-select>
+			</el-form-item>
+			<el-form-item label="服务商编号" required>
+				<el-input v-model="dataForm.provinceNo"></el-input>
+			</el-form-item>
+			<el-form-item :label="mobileTitle"  required>
+				<el-input v-model="dataForm.mobileNo"></el-input>
+			</el-form-item>
+			<el-form-item label="店主电话" v-show="false" required>
+				<el-input v-model="dataForm.owerMobileNo"></el-input>
+			</el-form-item>
+			<el-form-item label="店主姓名" v-show="!isPersonProvince" required>
+				<el-input v-model="dataForm.owerName"></el-input>
+			</el-form-item>
+			<el-form-item label="推荐人电话">
+				<el-input v-model="dataForm.referenceNo"></el-input>
+			</el-form-item>
+			<el-form-item label="门店状态" v-show="!isPersonProvince">
+				<el-input v-model="dataForm.shopStatus" v-show="false"></el-input>
+				    <el-radio-group v-model="dataForm.shopStatus">
+						<el-radio-button v-for="item in shopStatusList" :label="item.label" :key="item.label"  ></el-radio-button>
+					</el-radio-group>
+			</el-form-item>
+			<el-form-item label="店铺优势" v-show="!isPersonProvince">
+				<el-input v-model="dataForm.forte"></el-input>
+			</el-form-item>
+			<el-form-item label="身份证正面照片" required>
+				<el-input v-show="true" v-model="dataForm.personFrontImg"></el-input>
+				<el-upload
+					:action="uploadFrontUrl"
+					list-type="picture-card"
+					:on-preview="handleFrontPreview"
+					:before-upload="beforeFrontUpload"
+					:on-success="handleFrontSuccess"
+					:class="{hide:hideFrontUpload}"
+					:file-list="uploadFrontList"
+					:on-remove="handleFrontRemove">
+					<i class="el-icon-plus"></i>
+				</el-upload>
+				<el-dialog>
+					<img width="100%" :src="imageUrl" alt />
+				</el-dialog>
+			</el-form-item>
+			<el-form-item label="身份证反面照片" required>
+				<el-input v-show="true" v-model="dataForm.personSideImg"></el-input>
+				<el-upload
+					:action="uploadSideUrl"
+					list-type="picture-card"
+					:on-preview="handleSidePreview"
+					:before-upload="beforeSideUpload"
+					:on-success="handleSideSuccess"
+					:class="{hide:hideSideUpload}"
+					:file-list="uploadSideList"
+					:on-remove="handleSideRemove">
+					<i class="el-icon-plus"></i>
+				</el-upload>
+				<el-dialog>
+					<img width="100%" :src="imageUrl" alt />
+				</el-dialog>
+			</el-form-item>
+			<el-form-item label="营业执照照片" required v-show="!isPersonProvince">
+				<el-input v-show="true" v-model="dataForm.personLicenseImg"></el-input>
+				<el-upload
+					:action="uploadLicenseUrl"
+					list-type="picture-card"
+					:on-preview="handleLicensePreview"
+					:before-upload="beforeLicenseUpload"
+					:on-success="handleLicenseSuccess"
+					:class="{hide:hideLicenseUpload}"
+					:file-list="uploadLicenseList"
+					:on-remove="handleLicenseRemove">
+					<i class="el-icon-plus"></i>
+				</el-upload>
+				<el-dialog>
+					<img width="100%" :src="imageUrl" alt />
+				</el-dialog>
+			</el-form-item>
+			<el-form-item label="文件协议" required >
+				<el-input v-show="true" v-model="dataForm.protocalFile"></el-input>
+				<el-upload
+					:action="uploadProtocalUrl"
+					list-type="text"
+					:before-upload="beforeProtocalUpload"
+					:on-success="handleProtocalSuccess"
+					:on-remove="handleProtocalRemove"
+					:file-list="protocalFileList">
+					<el-button size="small" v-show="hideProtocalUpload" type="primary">点击上传</el-button>
+					<div slot="tip" class="el-upload__tip">只能上传jpg/png/pdf文件，且不超过5mb</div>
+				</el-upload>
+			</el-form-item>
+			<el-form-item label="银行名称">
+				<el-input v-model="dataForm.bankName"></el-input>
+			</el-form-item>
+			<el-form-item label="银行卡号">
+				<el-input v-model="dataForm.cardNo"></el-input>
+			</el-form-item>
+			<el-form-item label="地区">
+				<el-select v-model="dataForm.province" @change="loadcityList(true)">
+					<el-option
+						v-for="item in provinceList"
+						:key="item.provinceid"
+						:value-key="item.province"
+						:label="item.province"
+						:value="item.provinceid"
+					></el-option>
+				</el-select>
+				<el-select v-model="dataForm.city">
+					<el-option
+						v-for="item in cityList"
+						:key="item.cityid"
+						:value-key="item.city"
+						:label="item.city"
+						:value="item.cityid"
+					></el-option>
+				</el-select>
+			</el-form-item>
+			<el-form-item>
+				<el-button type="primary" @click="submitUpdate">添加</el-button>
+				<el-button @click="cancelUpdate">取消</el-button>
+			</el-form-item>
+		</el-form>
+	</div>
+</template>
+
+<script>
+import { getMethod, postMethod, getUploadUrl } from "@/api/request";
+import { isInteger } from "@/utils/validate";
+
+export default {
+	computed: {},
+	mounted() {
+		this.loadprovinceRoleList();
+		this.buildFrontGroupId();
+		this.buildSideGroupId();
+		this.buildLicenseGroupId();
+		this.buildProtocalGroupId();
+		this.$nextTick(function () {
+			this.loadprovinceList();
+		});
+	},
+	created() {},
+	watch: {
+        provinceList: function () {
+            this.$nextTick(function () {
+	 			if(this.editData.id){
+					this.dataForm = this.editData;
+				}
+				this.initDefaultImage()
+				this.dataForm.province = this.dataForm.province;
+				this.loadcityList(false)
+				if(this.dataForm.provinceRole != undefined){
+					this.switchLevel(this.dataForm.provinceRole)	
+				}
+            });
+        },
+		cityList: function(){
+			this.$nextTick(function () {
+				this.dataForm.city = this.editData.city;
+            });
+		}
+    },
+	props: {
+		editData: {
+			type: Object,
+			required: false
+		}
+	},
+	data() {
+		return {
+			mobileTitle:'手机号码',
+			fileSortImage:0,
+			isPersonProvince:true,
+			provinceRoleList: [],
+			provinceList: [],
+			cityList: [],
+			shopStatusList:this.GLOBAL.shopStatusList,
+			hideFrontUpload: false,
+			uploadFrontUrl: "",
+			hideSideUpload: false,
+			uploadSideUrl: "",
+			hideLicenseUpload: false,
+			uploadLicenseUrl: "",
+			hideProtocalUpload: true,
+			uploadProtocalUrl: "",
+			protocalFileList: [],
+			uploadFrontList:[],
+			uploadSideList:[],
+			uploadLicenseList:[],
+			imageUrl: "",
+			fileList: [],
+			dataForm: {
+				provinceName: "",
+				provinceNo: "",
+				owerName: "",
+				owerMobileNo: "",
+				forte: "",
+				shopStatus:"",
+				mobileNo: "",
+				protocalFile:"",
+				personFrontImg:"",
+				personSideImg:"",
+				personLicenseImg:"",
+				referenceNo: "",
+				bankName: "",
+				cardNo: "",
+				provinceRole: "1",
+				province: "",
+				city: "",
+				getFileJsonStr:{},
+				files:[],
+				id: ""
+			}
+		};
+	},
+	methods: {
+		initDefaultImage(){
+			debugger
+			this.fileList = this.dataForm.files;
+			for(let i = 0 ; i < this.dataForm.files.length ; i++){
+				let imageObj = this.dataForm.files[i]
+				if(imageObj.groupId == this.dataForm.protocalFile){
+					this.protocalFileList.push(imageObj)
+				}
+				if(imageObj.groupId == this.dataForm.personFrontImg){
+					this.uploadFrontList.push(imageObj)
+				}
+				if(imageObj.groupId == this.dataForm.personSideImg){
+					this.uploadSideList.push(imageObj)
+				}
+				if(imageObj.groupId == this.dataForm.personLicenseImg){
+					this.uploadLicenseList.push(imageObj)
+				}
+			}
+			if(this.protocalFileList.length >= 1){
+				this.hideProtocalUpload = false
+			}
+
+			if(this.uploadFrontList.length >= 1){
+				this.hideFrontUpload = true
+			}
+
+			if(this.uploadSideList.length >= 1){
+				this.hideSideUpload = true
+			}
+
+			if(this.uploadLicenseList.length >= 1){
+				this.hideLicenseUpload = true
+			}
+		},
+		switchLevel(val){
+			let obj = {};
+			obj = this.provinceRoleList.find((item)=>{
+				return item.id === val;
+			});
+			let getName = obj.providerLevel
+			if(getName == 'E类'){
+				this.isPersonProvince = false
+				this.mobileTitle = '店主电话'
+			}else{
+				this.isPersonProvince = true
+				this.mobileTitle = '手机号码'
+			}	
+		},
+		loadprovinceRoleList() {
+			let scope = this;
+			let param = {
+				parentId: "-1",
+				enable:1
+			};
+			getMethod("/backend/providerRole/findList", param).then(res => {
+				scope.provinceRoleList = res.data;
+			});
+		},
+		loadprovinceList() {
+			let scope = this;
+			let param = {
+				parentId: "-1"
+			};
+			getMethod("/backend/areas/findProvince", param).then(res => {
+				scope.provinceList = res.data;
+			});
+		},
+		loadcityList(clearValue) {
+			let scope = this;
+			let param = {
+				provinceid: this.dataForm.province
+			};
+			if(this.dataForm.province == ''){
+				return 
+			}
+			getMethod("/backend/areas/findCity", param).then(res => {
+				if(clearValue){
+					this.dataForm.city = ''
+				}
+				scope.cityList = res.data;
+			});
+		},
+		buildFrontGroupId() {
+			getMethod("/backend/oss/groupId", null).then(res => {
+				this.uploadFrontUrl = getUploadUrl() + "?groupId=" + res.data;
+				this.dataForm.personFrontImg = res.data;
+			});
+		},
+		handleFrontPreview() {},
+		handleFrontRemove(res) {
+		
+			for (let i = 0; i < this.fileList.length; i++) {
+				if (this.fileList[i].id == (res.id || res.response.data.id)) {
+					this.fileList.splice(i, 1);
+					break;
+				}
+			}
+			this.hideFrontUpload = false;
+		},
+		handleFrontSuccess(res, file) {
+			res.data.fileType = file.raw.type
+			res.data.sort = this.fileSortImage++
+			this.uploadFrontList.push(res.data);
+			let groupId = res.data.groupId;
+			let imageCnt = 0;
+			for (let i = 0; i < this.uploadFrontList.length; i++) {
+				if (this.uploadFrontList[i].groupId == groupId) {
+					imageCnt++;
+				}
+			}
+			if (imageCnt >= 1) {
+				this.hideFrontUpload = true;
+			}
+		},
+		beforeFrontUpload(file) {
+			const fileTypeVerify =
+				file.type === "image/jpeg" ||
+				file.type === "image/png" ||
+				file.type === "application/pdf";
+			const isLt2M = file.size / 1024 / 1024 < 5;
+
+			if (!fileTypeVerify) {
+				this.$message.error("上传文件格式错误!");
+			}
+			if (!isLt2M) {
+				this.$message.error("上传文件大小不能超过 5MB!");
+			}
+			return fileTypeVerify && isLt2M;
+		},
+		buildSideGroupId() {
+			getMethod("/backend/oss/groupId", null).then(res => {
+				this.uploadSideUrl = getUploadUrl() + "?groupId=" + res.data;
+				this.dataForm.personSideImg = res.data;
+			});
+		},
+		handleSidePreview() {},
+		handleSideRemove(res) {
+			for (let i = 0; i < this.fileList.length; i++) {
+				if (this.uploadSideList[i].id == (res.id || res.response.data.id)) {
+					this.uploadSideList.splice(i, 1);
+					break;
+				}
+			}
+			this.hideSideUpload = false;
+		},
+		handleSideSuccess(res, file) {
+			res.data.sort = this.fileSortImage++
+			res.data.fileType = file.raw.type
+			this.uploadSideList.push(res.data);
+			let groupId = res.data.groupId;
+			let imageCnt = 0;
+			for (let i = 0; i < this.uploadSideList.length; i++) {
+				if (this.uploadSideList[i].groupId == groupId) {
+					imageCnt++;
+				}
+			}
+			if (imageCnt >= 1) {
+				this.hideSideUpload = true;
+			}
+		},
+		beforeSideUpload(file) {
+			const fileTypeVerify =
+				file.type === "image/jpeg" ||
+				file.type === "image/png" ||
+				file.type === "application/pdf";
+			const isLt2M = file.size / 1024 / 1024 < 5;
+
+			if (!fileTypeVerify) {
+				this.$message.error("上传文件格式错误!");
+			}
+			if (!isLt2M) {
+				this.$message.error("上传文件大小不能超过 5MB!");
+			}
+			return fileTypeVerify && isLt2M;
+		},
+		buildLicenseGroupId() {
+			getMethod("/backend/oss/groupId", null).then(res => {
+				this.uploadLicenseUrl = getUploadUrl() + "?groupId=" + res.data;
+				this.dataForm.personLicenseImg = res.data;
+			});
+		},
+		handleLicensePreview() {},
+		handleLicenseRemove(res) {
+			for (let i = 0; i < this.fileList.length; i++) {
+				if (this.fileList[i].id == res.response.data.id) {
+					this.fileList.splice(i, 1);
+					break;
+				}
+			}
+			this.hideLicenseUpload = false;
+		},
+		handleLicenseSuccess(res, file) {
+			res.data.sort = this.fileSortImage++
+			res.data.fileType = file.raw.type
+			this.uploadLicenseList.push(res.data);
+			let groupId = res.data.groupId;
+			let imageCnt = 0;
+			for (let i = 0; i < this.uploadLicenseList.length; i++) {
+				if (this.uploadLicenseList[i].groupId == groupId) {
+					imageCnt++;
+				}
+			}
+			if (imageCnt >= 1) {
+				this.hideLicenseUpload = true;
+			}
+		},
+		beforeLicenseUpload(file) {
+			const fileTypeVerify =
+				file.type === "image/jpeg" ||
+				file.type === "image/png" ||
+				file.type === "application/pdf";
+			const isLt2M = file.size / 1024 / 1024 < 5;
+
+			if (!fileTypeVerify) {
+				this.$message.error("上传文件格式错误!");
+			}
+			if (!isLt2M) {
+				this.$message.error("上传文件大小不能超过 5MB!");
+			}
+			return fileTypeVerify && isLt2M;
+		},
+		buildProtocalGroupId() {
+			getMethod("/backend/oss/groupId", null).then(res => {
+				this.uploadProtocalUrl = getUploadUrl() + "?groupId=" + res.data;
+				this.dataForm.protocalFile = res.data;
+			});
+		},
+		handleProtocalPreview() {},
+		handleProtocalRemove(res) {
+			for(let i = 0 ; i < this.protocalFileList.length; i++ ){
+				if(this.protocalFileList[i].id == (res.id || res.response.data.id)){
+					this.protocalFileList.splice(i,1)
+					break;
+				}
+			}
+			this.hideProtocalUpload = true;
+		},
+		handleProtocalSuccess(res, file) {
+			res.data.sort = this.fileSortImage++
+			res.data.fileType = file.raw.type
+			res.data.name = file.name
+			this.protocalFileList.push(res.data)
+
+			let groupId = res.data.groupId;
+			let imageCnt = 0;
+			for (let i = 0; i < this.protocalFileList.length; i++) {
+				if (this.protocalFileList[i].groupId == groupId) {
+					imageCnt++;
+				}
+			}
+			if (imageCnt >= 1) {
+				this.hideProtocalUpload = false;
+			}
+		},
+		beforeProtocalUpload(file) {
+			const fileTypeVerify =
+				file.type === "image/jpeg" ||
+				file.type === "image/png" ||
+				file.type === "application/pdf";
+			const isLt2M = file.size / 1024 / 1024 < 5;
+
+			if (!fileTypeVerify) {
+				this.$message.error("上传文件格式错误!");
+			}
+			if (!isLt2M) {
+				this.$message.error("上传文件大小不能超过 5MB!");
+			}
+			return fileTypeVerify && isLt2M;
+		},
+		saveObject() {
+			let scope = this;
+			if (this.validate()) {
+				delete this.dataForm.createTime;
+				delete this.dataForm.createBy;
+				let fileList = []
+				fileList = fileList.concat(this.uploadFrontList);
+				fileList = fileList.concat(this.uploadSideList);
+				fileList = fileList.concat(this.uploadLicenseList);
+				fileList = fileList.concat(this.protocalFileList);
+				this.dataForm.fileJsonStr = JSON.stringify(fileList);
+				this.dataForm.files = []
+				postMethod("/backend/lyProvider/update", this.dataForm).then(
+					res => {
+						scope.typeList = res.data;
+						this.$message({
+							message: "操作成功",
+							type: "success"
+						});
+						this.$emit("showListPanel", true);
+					}
+				);
+			}
+		},
+		validate() {
+			let notNvl = [
+				"provinceName",
+				"provinceNo",
+				"bankName",
+				"cardNo"
+			];
+			for (let i = 0; i < notNvl.length; i++) {
+				if (this.dataForm[notNvl[i]] == "") {
+					this.$message({
+						message: "字段不能为空",
+						type: "warning"
+					});
+					return false;
+				}
+			}
+
+			let needInt = [];
+			for (let i = 0; i < needInt.length; i++) {
+				if (!isInteger(this.dataForm[needInt[i]])) {
+					this.$message({
+						message: "请输入正整数",
+						type: "warning"
+					});
+					return false;
+				}
+			}
+
+			return true;
+		},
+		cancelUpdate() {
+			this.$emit("showListPanel", true);
+		},
+		submitUpdate() {
+			this.saveObject();
+		}
+	}
+};
+</script>
+<style lang="scss" scoped>
+.update-form-panel {
+	padding: 30px 20px;
+	width: 600px;
+}
+</style>
+<style lang="scss">
+.hide .el-upload--picture-card {
+	display: none;
+}
+</style>

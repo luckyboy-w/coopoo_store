@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="53" height="56" viewBox="0 0 53 56">
+  <defs>
+    <style>
+      .cls-1, .cls-4 {
+        fill: none;
+      }
+
+      .cls-1 {
+        stroke: #f1804d;
+        stroke-width: 4px;
+      }
+
+      .cls-2 {
+        fill: #f1804d;
+        font-size: 40px;
+        font-family: PingFangSC-Semibold, PingFang SC;
+        font-weight: 600;
+      }
+
+      .cls-3 {
+        stroke: none;
+      }
+    </style>
+  </defs>
+  <g id="超时" transform="translate(-1624 -522)">
+    <g id="矩形_17" data-name="矩形 17" class="cls-1" transform="translate(1624 525)">
+      <rect class="cls-3" width="48" height="48"/>
+      <rect class="cls-4" x="2" y="2" width="44" height="44"/>
+    </g>
+    <text id="_" data-name="！" class="cls-2" transform="translate(1637 564)"><tspan x="0" y="0">！</tspan></text>
+  </g>
+</svg>

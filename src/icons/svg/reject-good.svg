@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40.143" height="46.833" viewBox="0 0 40.143 46.833">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #a49e83;
+      }
+    </style>
+  </defs>
+  <g id="退货" transform="translate(-128 -85.333)">
+    <path id="路径_22" data-name="路径 22" class="cls-1" d="M168.143,85.333v46.833H128V85.333ZM164.8,88.679H131.345v40.143H164.8Z" transform="translate(0 0)"/>
+    <path id="路径_23" data-name="路径 23" class="cls-1" d="M341.333,298.667h17.841v3.345H341.333Z" transform="translate(-202.183 -202.183)"/>
+    <path id="路径_24" data-name="路径 24" class="cls-1" d="M315.393,542.933a6.133,6.133,0,0,1,.375,12.255l-.375.011H298.667v-3.345h16.726a2.788,2.788,0,0,0,.285-5.562l-.285-.013H304.242v-3.345Z" transform="translate(-161.746 -433.681)"/>
+    <path id="路径_25" data-name="路径 25" class="cls-1" d="M370.552,471.7l-3.153,3.153,3.153,3.156-2.366,2.364-5.52-5.515,5.52-5.522,2.364,2.364Z" transform="translate(-222.401 -363.929)"/>
+  </g>
+</svg>
