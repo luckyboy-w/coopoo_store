@@ -1,10 +1,9 @@
 import request from '@/utils/request'
 
-export function getRoutes(tenantId) {
+export function getRoutes() {
   return request({
-    url: '/bc/menu/getMenu',
+    url: '/login/get-menu-list',
     method: 'get',
-    params: { tenantId }
   })
 }
 

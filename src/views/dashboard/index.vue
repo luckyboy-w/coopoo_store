@@ -367,7 +367,7 @@ export default {
   beforeMount() {
   },
   mounted() {
-    this.initData()
+    // this.initData()
   },
   methods: {
     ...mapActions('dashboard', ['getAnalysisData']),

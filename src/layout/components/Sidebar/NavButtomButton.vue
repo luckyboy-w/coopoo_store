@@ -68,16 +68,19 @@ export default {
         oldPwd: '',
         password: '',
         reppwd: '',
-        obj: ''
+        obj: '',
+        id:''
       }
     }
   },
 
   methods: {
     close() {
+      this.resetFrm={}
       this.showReset = false
     },
     showResetPwd() {
+      this.getUser()
       this.showReset = true
     },
     submitReset() {
@@ -104,43 +107,24 @@ export default {
         })
         return
       }
-      postMethod('/bc/lyBuUser/resetPwd', this.resetFrm).then((res) => {
-        if (res.data == 1) {
-          this.$message({
-            message: '旧密码不匹配，请重新输入',
-            type: 'warning'
-          })
-        } else if (res.data == 2) {
-          this.$message({
-            message: '密码重置失败，请稍后再试',
-            type: 'warning'
-          })
-        } else {
+      let param={
+        newPwd:this.resetFrm.password,
+        oldPwd:this.resetFrm.oldPwd
+      }
+      postMethod('/login/reset-pwd', param).then((res) => {
           this.$message({
             message: '修改成功',
             type: 'success'
           })
           this.showReset = false
-        }
-
+          this.logout()
       })
     },
     getUser() {
       let scope = this
-      getMethod('/bc/lyBuUser/getUser', {}).then(res => {
-        let data = res.data
-        if (data.enable == '0') {
-          this.$essage({
-            message: '账号被禁用',
-            type: 'error',
-            duration: 5 * 1000
-          })
-          scope.logout()
-        }
-
-        scope.bizName = data.bizName
-        scope.loginName = data.loginName
-        scope.loginDate = scope.fmtDate(data.loginDate)
+      getMethod('/permission/get-current-account-info').then(res => {
+		  console.log('data',res);
+        scope.resetFrm.id=res.data.id
       })
     },
     fmtDate(date) {

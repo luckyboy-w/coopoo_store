@@ -81,14 +81,23 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
-        const { access, name, avatar, introduction } = response.data
+      // getInfo(state.token).then(response => {
+      //   const { access, name, avatar, introduction } = response.data
 
         // roles must be a non-empty array
         /*        if (!access || access.length <= 0) {
                   reject('getInfo: access must be a non-null array!')
                 }*/
-
+        const access = ["super_admin","admin"]
+        const name = "admin"
+        const avatar = "https://bucket.coopoo.com/2021-07-02/20210702143733wTIhIAetaroVmRLvErQuPyUhgUsKrATR.png"
+        const introduction = "testUser"
+        const data={
+           access : ["super_admin","admin"],
+           name : "admin",
+           avatar : "https://bucket.coopoo.com/2021-07-02/20210702143733wTIhIAetaroVmRLvErQuPyUhgUsKrATR.png",
+           introduction : "testUser"
+        }
         const menus = []
 
         commit('SET_ROLES', access)
@@ -96,10 +105,10 @@ const actions = {
         commit('SET_AVATAR', avatar)
         commit('SET_INTRODUCTION', introduction)
         commit('SET_MENUS', menus)
-        resolve(response.data)
-      }).catch(error => {
-        reject(error)
-      })
+        resolve(data)
+      // }).catch(error => {
+      //   reject(error)
+      // })
     })
   },
   // user logout
@@ -140,8 +149,8 @@ const actions = {
       commit('SET_TOKEN', token)
       setToken(token)
 
-      const { access, buUser } = await dispatch('getInfo')
-
+      // const { access, buUser } = await dispatch('getInfo')
+      const  access  = "admin"
       resetRouter()
 
       // generate accessible routes map based on roles
@@ -158,11 +167,16 @@ const actions = {
   },
 
   // get user info
-  async getUserInfo({ commit, state }) {
-    commit('SET_SUPPLIER_AVATAR', require('@/icons/avatar-default.png'))
-    const { data } = await getUserInfo()
-
-    commit('SET_SUPPLIER_NAME', data.bizName)
+   getUserInfo({ commit, state }) {
+    commit('SET_SUPPLIER_AVATAR','https://bucket.coopoo.com/2021-07-02/20210702143733wTIhIAetaroVmRLvErQuPyUhgUsKrATR.png')
+    // const { data } = await getUserInfo()
+    getUserInfo().then(response => {
+      const { data } = response
+    commit('SET_SUPPLIER_NAME',data.storeName)
+    console.log(data)
+    }).catch(error => {
+      reject(error)
+    })
   }
 }
 

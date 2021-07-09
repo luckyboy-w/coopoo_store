@@ -55,7 +55,7 @@ const mutations = {
 const actions = {
   generateRoutes({ commit }, userInfo) {
     return new Promise(resolve => {
-      getRoutes(userInfo.buUser.tenantId).then((reponse) => {
+      getRoutes().then((reponse) => {
         let accessedRoutes = reponse.data
         if (userInfo.access.includes('admin')) {
           const componentMap = {}

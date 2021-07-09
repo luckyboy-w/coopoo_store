@@ -1,197 +1,9 @@
 <template>
   <div>
-    <div class="ly-container" v-if="!showOrdDtl">
-      <div class="ly-tool-panel" style="display: flex;flex-wrap: wrap;">
-        <div class="tabTd">
-          <div>订单编号：</div>
-          <div>
-            <el-input v-model="searchParam.orderNo" width="180px" placeholder="请输入" />
-          </div>
-        </div>
-        <div class="tabTd">
-          <div>商品名称：</div>
-          <div>
-            <el-input v-model="searchParam.goodsName" width="180px" placeholder="请输入" />
-          </div>
-        </div>
-        <div class="tabTd">
-          <div>买家姓名：</div>
-          <div>
-            <el-input v-model="searchParam.userName" width="180px" placeholder="请输入" />
-          </div>
-        </div>
-        <div class="tabTd">
-          <div>买家手机号：</div>
-          <div>
-            <el-input v-model="searchParam.phoneNo" width="180px" placeholder="请输入" />
-          </div>
-        </div>
-        <div class="tabTd">
-          <div>供应商名称：</div>
-          <div>
-            <el-input v-model="searchParam.supplierName" width="180px" placeholder="请输入" />
-          </div>
-        </div>
-        <div class="tabTd">
-          <div>订单状态：</div>
-          <div>
-            <!-- 订单状态 0:已取消 1:已提交 2:待支付 3:退款中 4:退款完成 5:待取件 6:待发货 7:待收货 8:交易完成 9:拒收 10:拒收完成 11:退货中 12:退货完成 -->
-            <el-select v-model="searchParam.orderStatus" placeholder="请选择">
-              <el-option value="" label="全部" />
-              <el-option value="0" label="已取消" />
-              <el-option value="1" label="已提交" />
-              <el-option value="2" label="待支付" />
-              <el-option value="3" label="退款中" />
-              <el-option value="4" label="退款完成" />
-              <el-option value="5" label="待取件" />
-              <el-option value="6" label="待发货" />
-              <el-option value="7" label="待收货" />
-              <el-option value="8" label="交易完成" />
-              <el-option value="9" label="拒收" />
-              <el-option value="10" label="拒收完成" />
-              <el-option value="11" label="退货中" />
-              <el-option value="12" label="退货完成" />
-            </el-select>
-          </div>
-        </div>
-        <div class="tabTd">
-          <div>支付方式：</div>
-          <div>
-            <el-select v-model="searchParam.payChannel" placeholder="请选择">
-              <el-option value="" label="全部"></el-option>
-              <el-option value="2" label="微信"></el-option>
-              <el-option value="1" label="支付宝"></el-option>
-            </el-select>
-          </div>
-        </div>
-        <div class="tabTd">
-          <div>下单时间：</div>
-          <div>
-            <el-date-picker style="width:200px" value-format="yyyy-MM-dd" v-model="searchParam.startCreateTime" type="date"
-              placeholder="开始时间">
-            </el-date-picker>
-          </div>
-          <div style="padding: 0 6px;">至</div>
-          <div>
-            <el-date-picker style="width:200px" value-format="yyyy-MM-dd" v-model="searchParam.endCreateTime" type="date"
-              placeholder="结束时间">
-            </el-date-picker>
-          </div>
-        </div>
-        <div class="tabTd">
-          <el-button icon="el-icon-search" type="primary" @click="search()">
-            搜索
-          </el-button>
-        </div>
-      </div>
-      <div class="ly-table-panel">
-        <div class="content1">
-          <el-table :data="tableData.list" border row-key="orderId" style="width: 100%">
-            <el-table-column width="1">
-              <template slot-scope="scope">
-                <div class="item">
-                  <span style="margin-left:150px">订单编号：{{ scope.row.orderNo }}</span>
-                  <span style="margin-left:150px">订单总额：{{ scope.row.orderAmount }}</span>
-                  <span style="margin-left:150px">下单时间：{{ scope.row.createTime }}</span>
-                </div>
-              </template>
-            </el-table-column>
-            <el-table-column label="商品" align="center" width="400">
-              <template slot-scope="scope">
-                <div v-for="(item, index) in scope.row.orderItemList" :key="index" class="mesSty">
-                  <div>
-                    <img class="imgSty" :src="item.goodsImage" alt="">
-                  </div>
-                  <div class="mesFont">
-                    <p>{{ item.goodsName }}</p>
-                    <p style="font-size: 12px;color:#909399;margin-top: 10px;">{{ item.skuText }}</p>
-                  </div>
-                </div>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" min-width="60" label="单价">
-              <template slot-scope="scope">
-                <div v-for="(item, index) in scope.row.orderItemList" :key="index" class="mesSty2">
-                  <div>{{ item.goodsPrice}}</div>
-                </div>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" min-width="60" label="数量">
-              <template slot-scope="scope">
-                <div v-for="(item, index) in scope.row.orderItemList" :key="index" class="mesSty2">
-                  <div>{{item.goodsNum}}</div>
-                </div>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" min-width="70" label="商品状态">
-              <template slot-scope="scope">
-                <div v-for="(item, index) in scope.row.orderItemList" :key="index" class="mesSty2">
-                  <div>{{ item.orderItemStatus| goodsText }}</div>
-                </div>
-              </template>
-            </el-table-column>
-            <el-table-column align="center" min-width="70" label="实付金额">
-              <template slot-scope="scope">
-                <div v-for="(item, index) in scope.row.orderItemList" :key="index" class="mesSty2">
-                  <div>{{ item.goodsPrice*item.goodsNum}}</div>
-                </div>
-              </template>
-            </el-table-column>
-            <el-table-column min-width="100" align="center" label="买家">
-              <template slot-scope="scope">
-                <div class="mesSty2">
-                  <div>{{ scope.row.userName }}<br />{{ scope.row.phoneNo }}</div>
-                </div>
-              </template>
-            </el-table-column>
-            <el-table-column min-width="140" align="center" label="供应商名称">
-              <template slot-scope="scope">
-                <div class="mesSty2">
-                  {{ scope.row.supplierName}}
-                </div>
-              </template>
-            </el-table-column>
-            <el-table-column label="状态" align="center" fixed="right" min-width="230">
-              <template slot-scope="scope">
-                <div class="mesSty2">
-                  <template>
-                    <div>
-                      <div>
-                        {{ scope.row.orderStatus | statuts2Text }}
-                      </div>
-                      <div>
-                        <el-button type="text" size="mini" @click="getOrdDtl(scope.row)">订单详情
-                        </el-button>
-                      </div>
-                      <div>
-                      <el-button-group>
-                        <template>
-                          <el-button type="primary" v-if="scope.row.orderStatus==5" size="mini" @click="writeOff(scope.row)">核销
-                          </el-button>
-                        </template>
-                      </el-button-group>
-                      </div>
-                    </div>
-                  </template>
-                </div>
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
-
-        <div class="ly-data-pagination">
-          <el-pagination v-show="!showPagination" :total="tableData.total" background layout="prev, pager, next"
-            @current-change="currentPage" @prev-click="currentPage" @next-click="currentPage" :page-size="searchParam.pageSize"
-            :current-page="searchParam.pageNum" />
-        </div>
-      </div>
-      <div class="list-panel" />
-    </div>
-
-    <div v-if="showOrdDtl">
+    <div>
       <el-row :gutter="20" style="line-height:40px;font-size:12px">
         <el-col :span="24">
-          <el-button type="primary" size="small" icon="el-icon-back" @click="handlerReturnPOrderList">返回列表</el-button>
+          <el-button type="primary" size="small" icon="el-icon-back" @click="backToList()">返回列表</el-button>
         </el-col>
       </el-row>
       <div class="notic-container">
@@ -246,20 +58,20 @@
         </el-row>
 
         <!--        发票信息-->
-        <span class="main-title" v-if="ordDtl.receiptTitle">
+        <span class="main-title" v-if="ordDtl.receiptTitle" >
           <el-col :span="24">发票信息</el-col>
         </span>
         <el-row :gutter="20" class="main-content" v-if="ordDtl.receiptTitle">
           <el-col :span="6" >发票抬头：{{ ordDtl.receiptTitle == '1' ? '公司' : '个人' }}
           </el-col>
-          <el-col :span="6">手机号码：{{ ordDtl.receiptMobile}}</el-col>
+          <el-col :span="6">手机号码：{{ ordDtl.receiptMobile }}</el-col>
           <el-col :span="6" >邮箱：{{ ordDtl.email }}</el-col>
           <el-col :span="6" >发票内容：{{ordDtl.receiptContent}}</el-col>
         </el-row>
         <el-row :gutter="20" class="main-content" v-if="ordDtl.receiptTitle">
-          <el-col :span="6" v-if="ordDtl.receiptTitle == '1'">公司名称：{{ ordDtl.receiptCompanyName }}</el-col>
-          <el-col :span="6" v-if="ordDtl.receiptTitle == '2'">开票人名称：{{ ordDtl.receiptName }}</el-col>
-          <el-col :span="6" v-if="ordDtl.receiptTitle == '1'">公司税号：{{ ordDtl.receiptCompanyTaxNo }}</el-col>
+          <el-col :span="6">公司名称：{{ ordDtl.receiptCompanyName }}</el-col>
+          <el-col :span="6">开票人名称：{{ ordDtl.receiptName }}</el-col>
+          <el-col :span="6" >公司税号：{{ ordDtl.receiptCompanyTaxNo }}</el-col>
           <el-col :span="6"></el-col>
         </el-row>
       </div>
@@ -346,9 +158,6 @@
   export default {
     components: {},
     filters: {
-      taxType2Text(type) {
-
-      },
       _formatDate(time) {
         if (time == undefined) {
           return '尚未支付，暂无时间'
@@ -404,40 +213,6 @@
         }
         return statusText
       },
-      goodsText(status) {
-        // 商品状态 0:已提交 1:可退款 2:发货中 3:退款中 4:退款失败 5:退款完成 6:待评价 7:已评价 8:退货待接单 9:退货已接单 10:拒收 11:拒收完成 12:退货中 13:退货完成
-        let statusText = ''
-        if (status == '0') {
-          statusText = '已提交'
-        } else if (status == '1') {
-          statusText = '可退款'
-        } else if (status == '2') {
-          statusText = '发货中'
-        } else if (status == '3') {
-          statusText = '退款中'
-        } else if (status == '4') {
-          statusText = '退款失败'
-        } else if (status == '5') {
-          statusText = '退款完成'
-        } else if (status == '6') {
-          statusText = '待评价'
-        } else if (status == '7') {
-          statusText = '已评价'
-        } else if (status == '8') {
-          statusText = '退货待接单'
-        } else if (status == '9') {
-          statusText = '退货已接单'
-        } else if (status == '10') {
-          statusText = '拒收'
-        } else if (status == '11') {
-          statusText = '拒收完成'
-        } else if (status == '12') {
-          statusText = '退货中'
-        } else if (status == '13') {
-          statusText = '退货完成'
-        }
-        return statusText
-      },
     },
     data() {
       return {
@@ -445,60 +220,32 @@
         //物流轨迹信息数组
         logisticsList: [],
         showPagination: false,
-        editData: {},
-        searchParam: {
-          phoneNo:'',
-          userName: '',
-          goodsName: '',
-          endCreateTime: '',
-          orderNo: '',
-          startCreateTime: '',
-          orderStatus: '',
-          payChannel: '',
-          supplierName: '',
-          pageSize: 10,
-          pageNum: 1
-        },
-        tableData: {
-          list: []
-        },
+        ordDtl:{},
       }
     },
     computed: {
     },
     props: {
-      orderStatus: {
-        type: Object,
+      orderNo: {
+        type: String,
         required: false,
         default: null
       }
     },
     mounted() {
+      console.log(this.orderNo)
       this.initLoad()
     },
     created() {},
     methods: {
-      writeOff(row){
-        console.log(row)
-        this.$confirm('是否确认核销订单?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          postMethod('/order/write-off-order?orderNo='+row.orderNo).then(res => {
-            this.loadList()
-            this.$message('操作成功')
-          })
-        })
+      backToList() {
+        this.$emit("backToList");
       },
-      handlerReturnPOrderList() {
-        this.showOrdDtl = false
-      },
-      async getOrdDtl(row) {
+      async initLoad() {
         const {
           data
         } = await getMethod('/order/get-order-info', {
-          orderNo: row.orderNo
+          orderNo: this.orderNo
         })
         this.showOrdDtl = true
         if(data.expressRouteInfoList&&data.expressRouteInfoList.length>=1){
@@ -564,26 +311,6 @@
         }
 
         this.ordDtl = data
-      },
-      search() {
-        this.searchParam.pageSize = 10
-        this.searchParam.pageNum = 1
-        this.loadList()
-      },
-      currentPage(pageNum) {
-        this.searchParam.pageNum = pageNum
-        this.loadList()
-      },
-      initLoad() {
-        this.loadList()
-      },
-      loadList() {
-        const scope = this
-          getMethod('/order/search-order-list', this.searchParam).then(res => {
-            scope.tableData.list = res.data.records
-            scope.tableData.total = res.data.total
-            scope.showPagination = scope.tableData.total == 0
-          })
       },
     }
   }

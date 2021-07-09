@@ -33,7 +33,7 @@ export const deleteMethod = (url, data) => {
 }
 
 export const getUploadUrl = () => {
-  return process.env.VUE_APP_BASE_API + '/bu/oss/upload'
+  return process.env.VUE_APP_BASE_API + '/oss/upload'
 }
 
 export function formatDate(date, fmt) {
