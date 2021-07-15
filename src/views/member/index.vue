@@ -17,13 +17,16 @@
         <div class="tabTd">
             <div>注册时间：</div>
             <div>
-              <el-date-picker v-model="searchParam.startRegisterTime" value-format="yyyy-MM-dd HH:mm:ss" type="date"
+              <el-date-picker v-model="searchParam.startRegisterTime" value-format="yyyy-MM-dd" type="date"
                                 placeholder="选择开始日期"
                 /> &nbsp;&nbsp;至&nbsp;&nbsp;
-                <el-date-picker v-model="searchParam.endRegisterTime" value-format="yyyy-MM-dd HH:mm:ss" type="date"
+                <el-date-picker v-model="searchParam.endRegisterTime" value-format="yyyy-MM-dd" type="date"
                                 placeholder="选择结束日期"
                 />
             </div>
+          </div>
+          <div class="tabTd">
+            <el-button icon="el-icon-search" type="primary" @click="search()">搜索</el-button>
           </div>
       </div>
       <div class="ly-table-panel" v-if="showDtl">
@@ -294,14 +297,18 @@
        } else if (status == '9') {
          statusText = '退货已接单'
        } else if (status == '10') {
-         statusText = '拒收'
-       } else if (status == '11') {
-         statusText = '拒收完成'
-       } else if (status == '12') {
-         statusText = '退货中'
-       } else if (status == '13') {
-         statusText = '退货完成'
-       }
+          statusText = '退货中'
+        } else if (status == '11') {
+          statusText = '退货完成'
+        } else if (status == '12') {
+          statusText = '拒收'
+        } else if (status == '13') {
+          statusText = '拒收完成'
+        } else if (status == '14') {
+          statusText = '退货退款中'
+        } else if (status == '15') {
+          statusText = '拒收退款中'
+        }
        return statusText
      },
     },
@@ -357,6 +364,7 @@
       backUp(){
         this.showDtl = true
         this.searchDtlParam.pageNum = 1
+        this.loadList();
       },
       loadDtlList(row) {
         let scope = this;

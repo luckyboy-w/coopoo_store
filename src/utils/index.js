@@ -345,3 +345,31 @@ export function removeClass(ele, cls) {
     ele.className = ele.className.replace(reg, ' ')
   }
 }
+
+
+//获取本周的周一的年月日
+export function getMon(date){
+
+	let nowTemp = new Date(date);//当前时间
+
+	let oneDayLong = 24*60*60*1000 ;//一天的毫秒数
+
+	let c_time = nowTemp.getTime() ;//当前时间的毫秒时间
+
+	let c_day = nowTemp.getDay()||7;//当前时间的星期几
+
+	let m_time = c_time - (c_day-1)*oneDayLong;//当前周一的毫秒时间
+
+	let monday = new Date(m_time);//设置周一时间对象
+
+	let m_year = monday.getFullYear();
+
+	let m_month = monday.getMonth()+1;
+	m_month = m_month < 10 ? '0' + m_month : m_month;
+
+	let m_date = monday.getDate();
+	m_date = m_date < 10 ? '0' + m_date : m_date;
+
+	return m_year + "-" + m_month + "-" + m_date;
+
+}

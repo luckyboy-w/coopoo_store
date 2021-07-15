@@ -428,13 +428,17 @@
         } else if (status == '9') {
           statusText = '退货已接单'
         } else if (status == '10') {
-          statusText = '拒收'
-        } else if (status == '11') {
-          statusText = '拒收完成'
-        } else if (status == '12') {
           statusText = '退货中'
-        } else if (status == '13') {
+        } else if (status == '11') {
           statusText = '退货完成'
+        } else if (status == '12') {
+          statusText = '拒收'
+        } else if (status == '13') {
+          statusText = '拒收完成'
+        } else if (status == '14') {
+          statusText = '退货退款中'
+        } else if (status == '15') {
+          statusText = '拒收退款中'
         }
         return statusText
       },

@@ -98,6 +98,7 @@
         orderNo: '',
         //10:未结算;20:结算中;30:已结算
         searchParam: {
+          settleStatus:'1',
           orderNo: '',
           startTime: '',
           endTime: '',
