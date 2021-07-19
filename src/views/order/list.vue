@@ -39,11 +39,10 @@
             <el-select v-model="searchParam.orderStatus" placeholder="请选择">
               <el-option value="" label="全部" />
               <el-option value="0" label="已取消" />
-              <el-option value="1" label="已提交" />
               <el-option value="2" label="待支付" />
               <el-option value="3" label="退款中" />
               <el-option value="4" label="退款完成" />
-              <el-option value="5" label="待取件" />
+              <el-option value="5" label="待自提" />
               <el-option value="6" label="待发货" />
               <el-option value="7" label="待收货" />
               <el-option value="8" label="交易完成" />
@@ -380,7 +379,7 @@
         } else if (status == '4') {
           statusText = '退款完成'
         } else if (status == '5') {
-          statusText = '待取件'
+          statusText = '待自提'
         } else if (status == '6') {
           statusText = '待发货'
         } else if (status == '7') {
@@ -478,6 +477,13 @@
       }
     },
     mounted() {
+      if (this.$route.query.orderStatus != undefined) {
+            this.searchParam.orderStatus = this.$route.query.orderStatus
+          }
+      if (this.$route.query.startCreateTime != undefined) {
+            this.searchParam.startCreateTime = this.$route.query.startCreateTime
+            this.searchParam.endCreateTime = this.$route.query.endCreateTime
+          }
       this.initLoad()
     },
     created() {},

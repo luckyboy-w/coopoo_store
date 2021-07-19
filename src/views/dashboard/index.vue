@@ -2,7 +2,7 @@
   <div>
     <div class="panel-group">
       <div class="card-panel-col">
-        <router-link to="/bc-goods/reject">
+        <router-link to="/cash/toAudit">
           <div class="card-panel">
             <div class="card-left">
               <div class="card-title">
@@ -19,7 +19,12 @@
         </router-link>
       </div>
       <div class="card-panel-col">
-        <router-link to="/bc-goods/saleList">
+        <router-link :to="{
+                          path: '/order/list',
+                          query: {
+                              orderStatus: '5'
+                          }
+                      }">
           <div class="card-panel">
             <div class="card-left">
               <div class="card-title">
@@ -36,7 +41,7 @@
         </router-link>
       </div>
       <div class="card-panel-col" style="width: auto!important;min-width: 250px;">
-        <router-link to="/bc-order/ready">
+        <router-link to="/cash/noSettlement">
           <div class="card-panel">
             <div class="card-left" style="min-width: 125px;">
               <div class="card-title">
@@ -53,7 +58,13 @@
         </router-link>
       </div>
       <div class="card-panel-col">
-        <router-link to="bc-order/readyPay">
+        <router-link :to="{
+                          path: '/order/list',
+                          query: {
+                             startCreateTime : beforeDay,
+                             endCreateTime:beforeDay
+                          }
+                      }">
           <div class="card-panel">
             <div class="card-left">
               <div class="card-title">
@@ -70,7 +81,13 @@
         </router-link>
       </div>
       <div class="card-panel-col">
-        <router-link to="bc-order/readyPay">
+        <router-link :to="{
+                          path: '/member/index',
+                          query: {
+                             startRegisterTime : beforeDay_,
+                             endRegisterTime:nowDay
+                          }
+                      }">
           <div class="card-panel">
             <div class="card-left">
               <div class="card-title">
@@ -225,6 +242,9 @@
             return time.getTime() > Date.now() - 8.64e7 * t;
           }
         },
+        beforeDay:'',
+        beforeDay_:'',
+        nowDay:'',
         weekOption: this.banWeek(),
         dateType: 1,
         searchParam: {
@@ -261,6 +281,8 @@
     computed: {},
     beforeMount() {},
     mounted() {
+
+      this.initDay()
       // this.initData()
       this.indexLoad()
       this.loadCharts()
@@ -279,6 +301,13 @@
           }
         }
       },
+      initDay(){
+        let day = new Date();
+        let day_ = new Date();
+        this.beforeDay=formatDate(new Date(day.setDate(day.getDate() - 1)), 'yyyy-MM-dd')
+        this.beforeDay_=formatDate(new Date(day_.setDate(day_.getDate() - 1)), 'yyyy-MM-dd 00:00:00')
+        this.nowDay=formatDate(new Date(), 'yyyy-MM-dd 00:00:00')
+      },
       // 触摸获得焦点
       weekOver(val) {
         this.dateType = val
@@ -289,7 +318,6 @@
         this.$refs.monthDateInput.$refs.reference.$refs.input.focus()
       },
       changeDate(val) {
-        console.log(val)
         this.dateType = val
         this.searchParam = {
           type: val,
@@ -301,7 +329,6 @@
         this.weekValue = val
         let tempDate = new Date(val)
         let beforeDate = tempDate.setDate(tempDate.getDate() + 5)
-        console.log(beforeDate, 'beforeDate', formatDate(new Date(beforeDate), 'yyyy-MM-dd'))
         this.searchParam = {
           type: 4,
           date: formatDate(new Date(beforeDate), 'yyyy-MM-dd')
@@ -309,7 +336,6 @@
         this.loadCharts()
       },
       changeMonth(val) {
-        console.log(val)
         this.monthValue = val
         let date = new Date(val)
         let year = date.getFullYear()
@@ -323,7 +349,6 @@
         this.loadCharts()
       },
       dataType(val) {
-        console.log(val)
         this.radio1 = val
         if (val == '1') {
           let chartsData = {
@@ -361,7 +386,6 @@
       },
       loadCharts() {
         getMethod('/home/get-home-count-chart', this.searchParam).then(res => {
-          console.log(res)
           this.startCountTime = res.data.startCountTime
           this.endCountTime = res.data.endCountTime
           this.orderPayMoney = res.data.orderPayMoney
@@ -381,12 +405,9 @@
             this.settleMoneyList.push(item.settleMoney)
           })
           this.dataType(this.radio1)
-          console.log(this.showText, this.orderPayNumList, this.orderPayMoneyList, this.registerMemberNumList, this
-            .settleMoneyList)
         })
       },
       chartData(data) {
-        console.log(data, 'data')
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'));
         // 绘制图表
