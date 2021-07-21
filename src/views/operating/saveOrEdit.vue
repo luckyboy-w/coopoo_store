@@ -2,18 +2,18 @@
   <div class="update-form-panel">
     <el-form ref="dataForm" :model="dataForm" label-width="80px">
       <el-form-item label="公告类型">
-        <el-select v-model="type" placeholder="请选择">
-          <el-option :value="0" label="纯文字"></el-option>
+        <el-select :disabled="isDisabled" v-model="dataForm.msgType" placeholder="请选择">
+          <el-option :value="2" label="纯文字"></el-option>
           <el-option :value="1" label="图文并茂"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="标题">
-        <el-input v-model="dataForm.title"></el-input>
+        <el-input :disabled="isDisabled" v-model="dataForm.title"></el-input>
       </el-form-item>
-      <el-form-item v-if="type==1" label="封面图">
+      <el-form-item v-if="dataForm.msgType==1" label="封面图">
         <div id="front-img">
           <el-input v-show="false" v-model="dataForm.img" />
-          <el-upload :action="uploadAdvertUrl" list-type="picture-card" :on-preview="handleAdvertPreview"
+          <el-upload :disabled="isDisabled" :action="uploadAdvertUrl" list-type="picture-card" :on-preview="handleAdvertPreview"
             :before-upload="beforeAdvertUpload" :on-success="handleAdvertSuccess" :class="{hideTrue:hideAdvertUpload}"
             :file-list="uploadAdvertList" :on-remove="handleAdvertRemove">
             <i class="el-icon-plus" />
@@ -26,12 +26,12 @@
         </div>
       </el-form-item>
       <el-form-item label="公告内容">
-        <el-input v-if="type==0" v-model="dataForm.content" type="textarea" rows="5"></el-input>
-        <qEditor v-if="type==1" :content="dataForm.content" ref="refEditor" moduleName="detailContent" @changeContent="changeContent">
+        <el-input v-if="dataForm.msgType==2" :disabled="isDisabled" v-model="dataForm.content" type="textarea" rows="5"></el-input>
+        <qEditor v-if="dataForm.msgType==1" :disabled="isDisabled" :content="dataForm.content" ref="refEditor" moduleName="detailContent" @changeContent="changeContent">
         </qEditor>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitUpdate">添加</el-button>
+        <el-button type="primary" :disabled="isDisabled"  @click="submitUpdate">添加</el-button>
         <el-button @click="cancelUpdate">取消</el-button>
       </el-form-item>
     </el-form>
@@ -58,16 +58,17 @@
       console.log(123456)
       this.$nextTick(function() {
         if (this.editData.id) {
+		this.isDisabled=true
           this.dataForm = this.editData;
           if (this.editData.img) {
-            this.type = 1;
+            this.dataForm.msgType = 1;
             this.dataForm.img = this.editData.img;
             this.uploadAdvertList.push({
               url: this.editData.img
             })
             this.hideAdvertUpload=true
           }else{
-            this.type = 0;
+            this.dataForm.msgType = 2;
           }
           this.$refs.refEditor.richText = this.dataForm.content
         }
@@ -82,10 +83,11 @@
     },
     data() {
       return {
-        type:0,
+		  isDisabled:false,
         fileSortImage: 0,
         imageUrl: "",
         dataForm: {
+		  msgType:2,
           img: "",
           title: "",
           content: "",
