@@ -66,14 +66,14 @@
         <div class="tabTd">
           <div>下单时间：</div>
           <div>
-            <el-date-picker style="width:200px" value-format="yyyy-MM-dd" v-model="searchParam.startCreateTime" type="date"
-              placeholder="开始时间">
+            <el-date-picker style="width:200px" value-format="yyyy-MM-dd" v-model="searchParam.startCreateTime"
+              type="date" placeholder="开始时间">
             </el-date-picker>
           </div>
           <div style="padding: 0 6px;">至</div>
           <div>
-            <el-date-picker style="width:200px" value-format="yyyy-MM-dd" v-model="searchParam.endCreateTime" type="date"
-              placeholder="结束时间">
+            <el-date-picker style="width:200px" value-format="yyyy-MM-dd" v-model="searchParam.endCreateTime"
+              type="date" placeholder="结束时间">
             </el-date-picker>
           </div>
         </div>
@@ -163,12 +163,13 @@
                         </el-button>
                       </div>
                       <div>
-                      <el-button-group>
-                        <template>
-                          <el-button type="primary" v-if="scope.row.orderStatus==5" size="mini" @click="writeOff(scope.row)">核销
-                          </el-button>
-                        </template>
-                      </el-button-group>
+                        <el-button-group>
+                          <template>
+                            <el-button type="primary" v-if="scope.row.orderStatus==5" size="mini"
+                              @click="writeOff(scope.row)">核销
+                            </el-button>
+                          </template>
+                        </el-button-group>
                       </div>
                     </div>
                   </template>
@@ -180,8 +181,8 @@
 
         <div class="ly-data-pagination">
           <el-pagination v-show="!showPagination" :total="tableData.total" background layout="prev, pager, next"
-            @current-change="currentPage" @prev-click="currentPage" @next-click="currentPage" :page-size="searchParam.pageSize"
-            :current-page="searchParam.pageNum" />
+            @current-change="currentPage" @prev-click="currentPage" @next-click="currentPage"
+            :page-size="searchParam.pageSize" :current-page="searchParam.pageNum" />
         </div>
       </div>
       <div class="list-panel" />
@@ -212,7 +213,8 @@
             <el-table-column align="center" header-align="center" prop="goodsName" label="商品名称"></el-table-column>
             <el-table-column align="center" header-align="center" prop="skuText" label="规格"></el-table-column>
             <el-table-column align="center" header-align="center" prop="goodsPrice" label="商品单价"></el-table-column>
-            <el-table-column align="center" header-align="center" prop="goodsNum" label="商品数量" width="150px"></el-table-column>
+            <el-table-column align="center" header-align="center" prop="goodsNum" label="商品数量" width="150px">
+            </el-table-column>
             <el-table-column align="center" header-align="center" label="商品总价">
               <template slot-scope="scope">
                 {{ (scope.row.goodsPrice * scope.row.goodsNum).toFixed(2) }}
@@ -240,7 +242,9 @@
         <el-row :gutter="20" class="main-content">
           <el-col :span="6">收货人：{{ ordDtl.receiverName }}</el-col>
           <el-col :span="6">收货人电话：{{ ordDtl.receiverPhone }}</el-col>
-          <el-col :span="12">收货地址：{{ordDtl.receiverProvince}}{{ordDtl.receiverCity}}{{ordDtl.receiverRegion}}{{ordDtl.receiverAddress}}</el-col>
+          <el-col :span="12">
+            收货地址：{{ordDtl.receiverProvince}}{{ordDtl.receiverCity}}{{ordDtl.receiverRegion}}{{ordDtl.receiverAddress}}
+          </el-col>
 
         </el-row>
 
@@ -249,11 +253,11 @@
           <el-col :span="24">发票信息</el-col>
         </span>
         <el-row :gutter="20" class="main-content" v-if="ordDtl.receiptTitle">
-          <el-col :span="6" >发票抬头：{{ ordDtl.receiptTitle == '1' ? '公司' : '个人' }}
+          <el-col :span="6">发票抬头：{{ ordDtl.receiptTitle == '1' ? '公司' : '个人' }}
           </el-col>
           <el-col :span="6">手机号码：{{ ordDtl.receiptMobile}}</el-col>
-          <el-col :span="6" >邮箱：{{ ordDtl.email }}</el-col>
-          <el-col :span="6" >发票内容：{{ordDtl.receiptContent}}</el-col>
+          <el-col :span="6">邮箱：{{ ordDtl.email }}</el-col>
+          <el-col :span="6">发票内容：{{ordDtl.receiptContent}}</el-col>
         </el-row>
         <el-row :gutter="20" class="main-content" v-if="ordDtl.receiptTitle">
           <el-col :span="6" v-if="ordDtl.receiptTitle == '1'">公司名称：{{ ordDtl.receiptCompanyName }}</el-col>
@@ -267,10 +271,11 @@
         <div style="width: 60%; box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
        padding:10px 20px;margin:20px 15px 10px 0;">
 
-          <el-carousel v-if="ordDtl.expressRouteInfoList&&ordDtl.expressRouteInfoList.length>=1" trigger="click" style="padding-bottom: 30px;">
+          <el-carousel v-if="ordDtl.expressRouteInfoList&&ordDtl.expressRouteInfoList.length>=1" trigger="click"
+            style="padding-bottom: 30px;">
             <el-carousel-item v-for="expressItem in ordDtl.expressRouteInfoList">
               <el-row :gutter="20" style="line-height:40px" class="main-title">
-                <el-col  class="main-title" v-if="expressItem.type==1" :span="18">
+                <el-col class="main-title" v-if="expressItem.type==1" :span="18">
                   发货物流
                 </el-col>
                 <el-col v-if="expressItem.type==2" :span="18">
@@ -305,8 +310,9 @@
               </div>
             </el-carousel-item>
           </el-carousel>
-          <el-row :gutter="20" v-if="!ordDtl.expressRouteInfoList||ordDtl.expressRouteInfoList.length==0" style="line-height:40px">
-            <el-col style="font-size: 19px;font-weight: 600;"  :span="24">
+          <el-row :gutter="20" v-if="!ordDtl.expressRouteInfoList||ordDtl.expressRouteInfoList.length==0"
+            style="line-height:40px">
+            <el-col style="font-size: 19px;font-weight: 600;" :span="24">
               物流信息
             </el-col>
           </el-row>
@@ -450,7 +456,7 @@
         showPagination: false,
         editData: {},
         searchParam: {
-          phoneNo:'',
+          phoneNo: '',
           userName: '',
           goodsName: '',
           endCreateTime: '',
@@ -467,8 +473,7 @@
         },
       }
     },
-    computed: {
-    },
+    computed: {},
     props: {
       orderStatus: {
         type: Object,
@@ -478,24 +483,24 @@
     },
     mounted() {
       if (this.$route.query.orderStatus != undefined) {
-            this.searchParam.orderStatus = this.$route.query.orderStatus
-          }
+        this.searchParam.orderStatus = this.$route.query.orderStatus
+      }
       if (this.$route.query.startCreateTime != undefined) {
-            this.searchParam.startCreateTime = this.$route.query.startCreateTime
-            this.searchParam.endCreateTime = this.$route.query.endCreateTime
-          }
+        this.searchParam.startCreateTime = this.$route.query.startCreateTime
+        this.searchParam.endCreateTime = this.$route.query.endCreateTime
+      }
       this.initLoad()
     },
     created() {},
     methods: {
-      writeOff(row){
+      writeOff(row) {
         console.log(row)
         this.$confirm('是否确认核销订单?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          postMethod('/order/write-off-order?orderNo='+row.orderNo).then(res => {
+          postMethod('/order/write-off-order?orderNo=' + row.orderNo).then(res => {
             this.loadList()
             this.$message('操作成功')
           })
@@ -511,66 +516,66 @@
           orderNo: row.orderNo
         })
         this.showOrdDtl = true
-        if(data.expressRouteInfoList&&data.expressRouteInfoList.length>=1){
+        if (data.expressRouteInfoList && data.expressRouteInfoList.length >= 1) {
           data.expressRouteInfoList.forEach(item => {
-          let arr = []
-          let text = ''
-          let title = ''
-          let status
-          item.traces.map(tracesItem => {
-            if (tracesItem.acceptTime) {
-              arr = tracesItem.acceptTime.split(" ")
-            }
-            tracesItem.time1 = arr[0].substring(0, 10)
-            tracesItem.time2 = arr[1].substring(0, 8)
-            status = tracesItem.action
-            if (status == 0) {
-              tracesItem.text = '暂无轨迹信息';
-            } else if (status == '1') {
-              tracesItem.text = '已揽收';
-            } else if (status == '2') {
-              tracesItem.text = '运输中';
-            } else if (status == 201) {
-              tracesItem.text = '到达派件城市';
-            } else if (status == 202) {
-              tracesItem.text = '派件中';
-            } else if (status == 211) {
-              tracesItem.text = '已放入快递柜或驿站';
-            } else if (status == 3) {
-              tracesItem.text = '已签收';
-            } else if (status == 301) {
-              tracesItem.text = '已签收';
-            } else if (status == 302) {
-              tracesItem.text = '派件异常后最终签收';
-            } else if (status == 304) {
-              tracesItem.text = '代收签收';
-            } else if (status == 311) {
-              tracesItem.text = '快递柜或驿站签收';
-            } else if (status == 4) {
-              tracesItem.text = '问题件';
-            } else if (status == 401) {
-              tracesItem.text = '发货无信息';
-            } else if (status == 402) {
-              tracesItem.text = '超时未签收';
-            } else if (status == 403) {
-              tracesItem.text = '超时未更新';
-            } else if (status == 404) {
-              tracesItem.text = '拒收（退件）';
-            } else if (status == 405) {
-              tracesItem.text = '派件异常';
-            } else if (status == 406) {
-              tracesItem.text = '退货签收';
-            } else if (status == 407) {
-              tracesItem.text = '退货未签收';
-            } else if (status == 412) {
-              tracesItem.text = '快递柜或驿站超时未取';
-            } else if (status == '001') {
-              tracesItem.text = '已下单';
-            } else if (status == '002') {
-              tracesItem.text = '已发货';
-            }
+            let arr = []
+            let text = ''
+            let title = ''
+            let status
+            item.traces.map(tracesItem => {
+              if (tracesItem.acceptTime) {
+                arr = tracesItem.acceptTime.split(" ")
+              }
+              tracesItem.time1 = arr[0].substring(0, 10)
+              tracesItem.time2 = arr[1].substring(0, 8)
+              status = tracesItem.action
+              if (status == 0) {
+                tracesItem.text = '暂无轨迹信息';
+              } else if (status == '1') {
+                tracesItem.text = '已揽收';
+              } else if (status == '2') {
+                tracesItem.text = '运输中';
+              } else if (status == 201) {
+                tracesItem.text = '到达派件城市';
+              } else if (status == 202) {
+                tracesItem.text = '派件中';
+              } else if (status == 211) {
+                tracesItem.text = '已放入快递柜或驿站';
+              } else if (status == 3) {
+                tracesItem.text = '已签收';
+              } else if (status == 301) {
+                tracesItem.text = '已签收';
+              } else if (status == 302) {
+                tracesItem.text = '派件异常后最终签收';
+              } else if (status == 304) {
+                tracesItem.text = '代收签收';
+              } else if (status == 311) {
+                tracesItem.text = '快递柜或驿站签收';
+              } else if (status == 4) {
+                tracesItem.text = '问题件';
+              } else if (status == 401) {
+                tracesItem.text = '发货无信息';
+              } else if (status == 402) {
+                tracesItem.text = '超时未签收';
+              } else if (status == 403) {
+                tracesItem.text = '超时未更新';
+              } else if (status == 404) {
+                tracesItem.text = '拒收（退件）';
+              } else if (status == 405) {
+                tracesItem.text = '派件异常';
+              } else if (status == 406) {
+                tracesItem.text = '退货签收';
+              } else if (status == 407) {
+                tracesItem.text = '退货未签收';
+              } else if (status == 412) {
+                tracesItem.text = '快递柜或驿站超时未取';
+              } else if (status == '001') {
+                tracesItem.text = '已下单';
+              } else if (status == '002') {
+                tracesItem.text = '已发货';
+              }
+            })
           })
-        })
         }
 
         this.ordDtl = data
@@ -589,11 +594,11 @@
       },
       loadList() {
         const scope = this
-          getMethod('/order/search-order-list', this.searchParam).then(res => {
-            scope.tableData.list = res.data.records
-            scope.tableData.total = res.data.total
-            scope.showPagination = scope.tableData.total == 0
-          })
+        getMethod('/order/search-order-list', this.searchParam).then(res => {
+          scope.tableData.list = res.data.records
+          scope.tableData.total = res.data.total
+          scope.showPagination = scope.tableData.total == 0
+        })
       },
     }
   }
