@@ -61,8 +61,8 @@
         <router-link :to="{
                           path: '/order/list',
                           query: {
-                             startCreateTime : beforeDay,
-                             endCreateTime:beforeDay
+                             startCreateTime : beforeDay_,
+                             endCreateTime:nowDay
                           }
                       }">
           <div class="card-panel">
