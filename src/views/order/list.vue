@@ -256,12 +256,12 @@
           <el-col :span="6">发票抬头：{{ ordDtl.receiptTitle == '1' ? '公司' : '个人' }}
           </el-col>
           <el-col :span="6">手机号码：{{ ordDtl.receiptMobile}}</el-col>
-          <el-col :span="6">邮箱：{{ ordDtl.email }}</el-col>
+          <el-col :span="6">邮箱：{{ ordDtl.receiptEmail }}</el-col>
           <el-col :span="6">发票内容：{{ordDtl.receiptContent}}</el-col>
         </el-row>
         <el-row :gutter="20" class="main-content" v-if="ordDtl.receiptTitle">
           <el-col :span="6" v-if="ordDtl.receiptTitle == '1'">公司名称：{{ ordDtl.receiptCompanyName }}</el-col>
-          <el-col :span="6" v-if="ordDtl.receiptTitle == '2'">开票人名称：{{ ordDtl.receiptName }}</el-col>
+          <el-col :span="6" v-if="ordDtl.receiptTitle == '2'">开票人名称：{{ ordDtl.receiptPersonName }}</el-col>
           <el-col :span="6" v-if="ordDtl.receiptTitle == '1'">公司税号：{{ ordDtl.receiptCompanyTaxNo }}</el-col>
           <el-col :span="6"></el-col>
         </el-row>
