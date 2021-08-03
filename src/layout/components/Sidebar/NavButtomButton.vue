@@ -3,6 +3,14 @@
   <div class="sidebar-logo-container" :class="{'collapse':collapse}">
     <!--    不使用动画,代码保留-->
     <!--    <transition-group name="sidebarBottomFade">-->
+	<div v-if="collapse" key="collapse" class="sidebar-logo-link" @click="downQrcode()">
+	  <img :src="qrCode" class="sidebar-logo">
+	  <span class="sidebar-title" style="visibility: hidden">门店二维码</span>
+	</div>
+	<div v-else key="expand" class="sidebar-logo-link" @click="downQrcode()">
+	  <img :src="qrCode" class="sidebar-logo">
+	  <span class="sidebar-title">门店二维码</span>
+	</div>
     <div v-if="collapse" key="collapse1" class="sidebar-logo-link" @click="showResetPwd()">
       <img :src="ChangePasswd" class="sidebar-logo">
       <span class="sidebar-title" style="visibility: hidden">修改密码</span>
@@ -45,8 +53,10 @@
 <script>
 import Logout from '@/assets/logout.png'
 import ChangePasswd from '@/assets/changePasswd.png'
+import qrCode from '@/assets/qrCode.png'
 import { getMethod, postMethod } from '@/api/request'
 import { formatDate } from '@/api/tools.js'
+import {getToken} from '@/utils/auth'
 
 export default {
   name: 'NavButtomButton',
@@ -58,6 +68,8 @@ export default {
   },
   data() {
     return {
+      storeId:'',
+      qrCode:qrCode,
       Logout: Logout,
       ChangePasswd: ChangePasswd,
       loginName: '',
@@ -73,7 +85,9 @@ export default {
       }
     }
   },
-
+  created() {
+    this.getUser()
+  },
   methods: {
     close() {
       this.resetFrm={}
@@ -82,6 +96,11 @@ export default {
     showResetPwd() {
       this.getUser()
       this.showReset = true
+    },
+    downQrcode(){
+      console.log('1111',getToken(),this.storeId);
+      window.open( process.env.VUE_APP_BASE_API+'/home/download-qr-code?storeId='+this.storeId)
+      // ?token='+getToken()
     },
     submitReset() {
       let scope = this
@@ -125,6 +144,7 @@ export default {
       getMethod('/permission/get-current-account-info').then(res => {
 		  console.log('data',res);
         scope.resetFrm.id=res.data.id
+        scope.storeId=res.data.storeId
       })
     },
     fmtDate(date) {
@@ -153,7 +173,7 @@ export default {
   margin-top: 15vh;
   //width: 100%;
   width: $sideBarWidth;
-  height: 10vh;
+  height: 15vh;
   overflow: hidden;
 
   & .sidebar-logo-link {
