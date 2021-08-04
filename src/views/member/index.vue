@@ -357,7 +357,8 @@
       searchConsume() {
         let that = this
         getMethod('/order/search-order-list', that.searchDtlParam).then(res => {
-         scope.tableData2.list = res.data.records
+          this.$set(this.tableData2, 'list', res.data.records)
+         // scope.tableData2.list = res.data.records
          scope.tableData2.total = res.data.total
          scope.showPagination = scope.tableData2.total == 0;
         })
@@ -376,7 +377,8 @@
         scope.searchDtlParam.memberId=row.pkMemberId
         scope.memberName=row.userName
         getMethod('/order/search-order-list', scope.searchDtlParam).then(res => {
-            scope.tableData2.list = res.data.records
+          this.$set(this.tableData2, 'list', res.data.records)
+            // scope.tableData2.list = res.data.records
             scope.tableData2.total = res.data.total
             scope.showPagination = scope.tableData2.total == 0;
             scope.showDtl = false;
