@@ -136,7 +136,7 @@
             </el-col>
           </el-row>
           <div>
-            暂无备注
+                          {{ordDtl.remark?ordDtl.remark:'暂无备注'}}
           </div>
         </div>
       </div>
