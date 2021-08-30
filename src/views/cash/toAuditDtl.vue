@@ -122,10 +122,10 @@
       };
     },
     mounted() {
-      console.log(this.detailData)
-        this.loadList()
-        this.searchParam.settleNo=this.detailData.supplierName
+      console.log(this.detailData,'666666666')
+        this.searchParam.settleNo=this.detailData.settleNo
         this.settleNo=this.detailData.settleNo
+        this.loadList()
     },
     methods: {
       // 未结算
