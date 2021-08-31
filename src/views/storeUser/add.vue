@@ -123,14 +123,13 @@
               });
               return;
             }
-            this.loading = true
+            // this.loading = true
             delete this.form.reppwd
             console.log(this.editData.id)
             if (!this.editData.id||this.editData.id=='') {
               postMethod('/permission/add-account', this.form).then(res => {
               this.loading = false
               scope.roleData = res.data
-
               if (res.errCode != 0) {
                 this.$message({
                   message: res.message,
