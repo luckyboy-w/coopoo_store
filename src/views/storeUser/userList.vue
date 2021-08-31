@@ -29,7 +29,7 @@
               </el-table-column>
               <el-table-column prop="enable" label="状态"  width="150px">
                 <template slot-scope="scope">
-                  <el-switch :disabled="scope.row.account=='admin'" v-model="scope.row.enable" active-value="1" inactive-value="0"
+                  <el-switch v-model="scope.row.enable" active-value="1" inactive-value="0"
                     @change="enable(scope.row)" />
                 </template>
               </el-table-column>
@@ -37,7 +37,7 @@
                 <template slot-scope="scope">
                   <el-link type="primary"  @click="editSysUser(scope.row)">编辑</el-link>
                       <el-divider direction="vertical"></el-divider>
-                  <el-link type="primary" :disabled="scope.row.account=='admin'" @click="resetPwd(scope.row)">修改密码</el-link>
+                  <el-link type="primary" @click="resetPwd(scope.row)">修改密码</el-link>
                 </template>
               </el-table-column>
             </el-table>
