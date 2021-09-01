@@ -28,10 +28,10 @@
           <div class="card-panel">
             <div class="card-left">
               <div class="card-title">
-                待取件
+                待提货
               </div>
               <div class="card-text">
-                当前待取件数
+                当前待提货数
               </div>
             </div>
             <div class="card-right">
