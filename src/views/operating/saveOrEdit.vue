@@ -17,8 +17,8 @@
             :before-upload="beforeAdvertUpload" :on-success="handleAdvertSuccess" :class="{hideTrue:hideAdvertUpload}"
             :file-list="uploadAdvertList" :on-remove="handleAdvertRemove">
             <i class="el-icon-plus" />
-            <!-- <div slot="tip" class="el-upload__tip">推荐尺寸：1000*600
-            </div> -->
+            <div slot="tip" class="el-upload__tip">推荐尺寸：1000*600
+            </div>
           </el-upload>
           <el-dialog>
             <img width="100%" :src="image" alt>
@@ -35,6 +35,9 @@
         <el-button @click="cancelUpdate">取消</el-button>
       </el-form-item>
     </el-form>
+    <el-dialog :visible.sync="dialogVisible">
+      <img width="100%" :src="dialogImageUrl" alt="">
+    </el-dialog>
   </div>
 </template>
 
@@ -92,8 +95,10 @@
           title: "",
           content: "",
         },
+        dialogVisible:false,
         uploadAdvertList: [],
         hideAdvertUpload: false,
+        dialogImageUrl:'',
         uploadAdvertUrl: getUploadUrl(),
         fileSortImage: 0,
         image: "",
@@ -104,6 +109,7 @@
         this.dataForm.content = val
       },
       handleAdvertPreview(file) {
+		  console.log('11',file);
         this.dialogImageUrl = file.url;
         this.dialogVisible = true;
       },
