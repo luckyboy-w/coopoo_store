@@ -236,17 +236,24 @@
           <el-col :span="6">实付金额：{{ ordDtl.orderPayAmount }}</el-col>
         </el-row>
         <!--        收货人信息-->
-        <span class="main-title">
+        <span v-if="ordDtl.deliveryMethod==1" class="main-title">
           <el-col :span="24">收货信息</el-col>
         </span>
-        <el-row :gutter="20" class="main-content">
+        <el-row v-if="ordDtl.deliveryMethod==1" :gutter="20" class="main-content">
           <el-col :span="6">收货人：{{ ordDtl.receiverName }}</el-col>
           <el-col :span="6">收货人电话：{{ ordDtl.receiverPhone }}</el-col>
-          <el-col :span="12">
-            收货地址：{{ordDtl.receiverProvince}}{{ordDtl.receiverCity}}{{ordDtl.receiverRegion}}{{ordDtl.receiverAddress}}
-          </el-col>
-
+          <el-col :span="12">收货地址：{{ordDtl.receiverProvince}}{{ordDtl.receiverCity}}{{ordDtl.receiverRegion}}{{ordDtl.receiverAddress}}</el-col>
         </el-row>
+        <!--        提货信息-->
+        <span v-if="ordDtl.deliveryMethod==2" class="main-title">
+          <el-col :span="24">提货信息</el-col>
+        </span>
+        <el-row v-if="ordDtl.deliveryMethod==2" :gutter="20" class="main-content">
+          <el-col :span="6">预约时间：{{ ordDtl.appointmentDate }}</el-col>
+          <el-col :span="6">预留手机号：{{ ordDtl.appointmentMobile }}</el-col>
+          <el-col :span="12">提货门店：{{ordDtl.memberStoreName}}</el-col>
+        </el-row>
+        
 
         <!--        发票信息-->
         <span class="main-title" v-if="ordDtl.receiptTitle">
