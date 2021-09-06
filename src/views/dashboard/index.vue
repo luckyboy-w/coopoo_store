@@ -61,8 +61,8 @@
         <router-link :to="{
                           path: '/order/list',
                           query: {
-                             startCreateTime : beforeDay_,
-                             endCreateTime:nowDay
+                             startCreateTime : beforeDay,
+                             endCreateTime:beforeDay
                           }
                       }">
           <div class="card-panel">
@@ -84,8 +84,8 @@
         <router-link :to="{
                           path: '/member/index',
                           query: {
-                             startRegisterTime : beforeDay_,
-                             endRegisterTime:nowDay
+                             startRegisterTime : beforeDay,
+                             endRegisterTime:beforeDay
                           }
                       }">
           <div class="card-panel">

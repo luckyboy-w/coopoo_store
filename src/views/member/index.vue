@@ -17,10 +17,10 @@
         <div class="tabTd">
             <div>注册时间：</div>
             <div>
-              <el-date-picker v-model="searchParam.startRegisterTime" value-format="yyyy-MM-dd 00:00:00" type="date"
+              <el-date-picker v-model="searchParam.startRegisterTime" value-format="yyyy-MM-dd" type="date"
                                 placeholder="选择开始日期"
                 /> &nbsp;&nbsp;至&nbsp;&nbsp;
-                <el-date-picker v-model="searchParam.endRegisterTime" value-format="yyyy-MM-dd 00:00:00" type="date"
+                <el-date-picker v-model="searchParam.endRegisterTime" value-format="yyyy-MM-dd" type="date"
                                 placeholder="选择结束日期"
                 />
             </div>
