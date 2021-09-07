@@ -46,44 +46,49 @@
           <el-col :span="6">应付金额：{{ ordDtl.orderAmount }}</el-col>
           <el-col :span="6">实付金额：{{ ordDtl.orderPayAmount }}</el-col>
         </el-row>
+        </div>
+        <div v-if="ordDtl.deliveryMethod==1" class="info-container">
        <!--        收货人信息-->
-       <span v-if="ordDtl.deliveryMethod==1" class="main-title">
+       <span class="main-title">
          <el-col :span="24">收货信息</el-col>
        </span>
-       <el-row v-if="ordDtl.deliveryMethod==1" :gutter="20" class="main-content">
+       <el-row :gutter="20" class="main-content">
          <el-col :span="6">收货人：{{ ordDtl.receiverName }}</el-col>
          <el-col :span="6">收货人电话：{{ ordDtl.receiverPhone }}</el-col>
          <el-col :span="12">收货地址：{{ordDtl.receiverProvince}}{{ordDtl.receiverCity}}{{ordDtl.receiverRegion}}{{ordDtl.receiverAddress}}</el-col>
        </el-row>
+          </div>
+       <div v-if="ordDtl.deliveryMethod==2" class="info-container">
        <!--        提货信息-->
-       <span v-if="ordDtl.deliveryMethod==2" class="main-title">
+       <span class="main-title">
          <el-col :span="24">提货信息</el-col>
        </span>
-       <el-row v-if="ordDtl.deliveryMethod==2" :gutter="20" class="main-content">
+       <el-row :gutter="20" class="main-content">
          <el-col :span="6">预约时间：{{ ordDtl.appointmentDate }}</el-col>
          <el-col :span="6">预留手机号：{{ ordDtl.appointmentMobile }}</el-col>
          <el-col :span="12">提货门店：{{ordDtl.memberStoreName}}</el-col>
        </el-row>
+         </div>
        
-
+      <div v-if="ordDtl.receiptTitle" class="info-container">
         <!--        发票信息-->
-        <span class="main-title" v-if="ordDtl.receiptTitle" >
+        <span class="main-title" >
           <el-col :span="24">发票信息</el-col>
         </span>
-        <el-row :gutter="20" class="main-content" v-if="ordDtl.receiptTitle">
+        <el-row :gutter="20" class="main-content">
           <el-col :span="6" >发票抬头：{{ ordDtl.receiptTitle == '1' ? '公司' : '个人' }}
           </el-col>
           <el-col :span="6">手机号码：{{ ordDtl.receiptMobile }}</el-col>
           <el-col :span="6" >邮箱：{{ ordDtl.receiptEmail }}</el-col>
           <el-col :span="6" >发票内容：{{ordDtl.receiptContent}}</el-col>
         </el-row>
-        <el-row :gutter="20" class="main-content" v-if="ordDtl.receiptTitle">
+        <el-row :gutter="20" class="main-content">
           <el-col :span="6" v-if="ordDtl.receiptTitle == '1'">公司名称：{{ ordDtl.receiptCompanyName }}</el-col>
           <el-col :span="6" v-if="ordDtl.receiptTitle == '2'">开票人名称：{{ ordDtl.receiptPersonName }}</el-col>
           <el-col :span="6" v-if="ordDtl.receiptTitle == '1'">公司税号：{{ ordDtl.receiptCompanyTaxNo }}</el-col>
           <el-col :span="6"></el-col>
         </el-row>
-      </div>
+        </div>
       <!--        物流信息-->
       <div style="width: 100%;display: flex;">
         <div style="width: 60%; box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
@@ -396,12 +401,12 @@
   .info-container {
     box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
     padding: 20px;
-    margin-top: 5vh;
+    margin-top: 20px;
 
     .main-title {
       display: inline-block;
       width: 100%;
-      margin-top: 3vh;
+      // margin-top: 3vh;
       font-size: 19px;
       font-weight: 600;
     }
