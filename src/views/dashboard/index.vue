@@ -40,10 +40,10 @@
           </div>
         </router-link>
       </div>
-      <div class="card-panel-col" style="width: auto!important;min-width: 250px;">
+      <div class="card-panel-col" >
         <router-link to="/cash/noSettlement">
           <div class="card-panel">
-            <div class="card-left" style="min-width: 125px;">
+            <div class="card-left">
               <div class="card-title">
                 结算收入
               </div>
@@ -51,8 +51,8 @@
                 当月累计收入
               </div>
             </div>
-            <div class="card-right" style="width: 100%;padding: 0 10px;text-align: center;">
-              <count-to :start-val="0" :end-val="indexData.settleProfit" :duration="2000" />
+            <div class="card-right" >
+              <count-to :start-val="0" :end-val="indexData.settleProfit" :decimals="2" :duration="2000" />
             </div>
           </div>
         </router-link>
@@ -515,17 +515,28 @@
     flex-wrap: wrap;
 
     .card-panel-col {
+      width: auto!important;
+      min-width: 250px;
       margin: 15px;
-      width: 250px;
+      // width: 250px;
 
       .card-right {
-        width: 30%;
+        width: 100%;
+        padding: 0 10px;
+        text-align: center;
+        // width: 30%;
         font-size: 40px;
         font-weight: 600;
       }
 
       .card-text {
         font-size: 15px;
+      }
+      .card-left {
+        width: 70%;
+        padding-left: 25px;
+        line-height: 35px;
+        min-width: 125px;
       }
     }
 
@@ -542,13 +553,14 @@
       .card-text {
         font-size: 20px;
       }
-    }
 
     .card-left {
       width: 70%;
       padding-left: 25px;
       line-height: 35px;
     }
+    }
+
 
 
 
