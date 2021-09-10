@@ -3,7 +3,12 @@
   <div class="container">
   	<div class="home">
   	<div class="loginbg">
-  		<div class="hello">hello!</div>
+  		<div class="logo">
+        <img style="width: 100%;height: 100%;object-fit: contain;" src="../../icons/logo.png" />
+      </div>
+      <div class="welcome">
+        <img style="width: 100%;height: 100%;object-fit: contain;" src="../../icons/welcome.png" />
+      </div>
   		<div class="text">欢迎登录&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;靠谱家门店管理系统</div>
   		<div class="form">
         <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
@@ -226,7 +231,7 @@ $cursor: #fff;
 		/* z-index: -100; */
 		zoom: 1;
 		background-color: #fff;
-		background: url(https://bucket.coopoo.cn/images/supplier.png) no-repeat;
+		background: url(https://bucket.coopoo.cn/images/store.png) no-repeat;
 		background-size: cover;
 		-webkit-background-size: cover;
 		-o-background-size: cover;
@@ -247,27 +252,35 @@ $cursor: #fff;
 		    margin-top:-280px;
 	}
 	.loginbg{
-		margin-top: 75px;
-		margin-left:100px;
-		width: 300px;
-		height: 380px;
-		left: 50px;
-		 // background:red;
-		 padding-top: 40px;
+		margin-left: 90px;
+		    width: 300px;
+		    height: 380px;
+		    left: 50px;
+		    padding-top: 40px;
 	}
 	.text{
 		font-size: 18px;
+    margin-left: 10px;
+    color: #FFFFFF;
 		/* margin-top: -350px; */
 		/* margin-left: 100px; */
 		/* height: 20px; */
 		 // background:greenyellow;
 	}
-	.hello{
-		font-size: 50px;
-		width: 174px;
-		height: 70px;
+	.logo{
+		margin: 20px 0 30px 100px;
+		    font-size: 50px;
+		    width: 90px;
+		    height: 90px;
 		// background-color: #000FFF;
 	}
+  .welcome{
+  	    position: absolute;
+  	    width: 500px;
+  	    height: 95px;
+  	    left: 500px;
+  	    top: 310px;
+  }
 	.form{
 		width: 100%;
 		height: 300px;
