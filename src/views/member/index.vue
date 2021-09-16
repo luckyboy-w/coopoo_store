@@ -83,6 +83,7 @@
                    <span style="margin-left:150px">订单编号：{{ scope.row.orderNo }}</span>
                    <span style="margin-left:150px">订单总额：{{ scope.row.orderAmount }}</span>
                    <span style="margin-left:150px">下单时间：{{ scope.row.createTime }}</span>
+                   <span style="margin-left:150px">注册手机号：{{ scope.row.registerPhoneNo }}</span>
                  </div>
                </template>
              </el-table-column>
