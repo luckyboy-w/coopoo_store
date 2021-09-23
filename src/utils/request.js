@@ -22,7 +22,7 @@ service.interceptors.request.use(
       // please modify it according to the actual situation
       config.headers['token'] = getToken()
     }
-
+	config.headers['Cache-Control'] = 'no-cache'
     config.headers['Web-Site'] = 'Backend-Plat'
     config.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
 

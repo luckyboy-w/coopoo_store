@@ -511,23 +511,50 @@
       }
       this.initLoad()
     },
-    created() {},
+    created() {
+      console.log('id',this.guid());
+    },
     methods: {
+      // loadUserInfo(){
+      //   getMethod('/permission/get-current-account-info').then(res => {
+      //     this.accountId=res.data.
+      //   })
+      // },
       writeOff(row) {
-        console.log(row)
-        this.$confirm('是否确认核销订单?', '提示', {
+        // console.log(row,JSON.stringify(this.searchParam))
+        // console.log(this.guid()+getToken()+new Date().getTime())
+        let requestNo=this.guid() + getToken() + new Date().getTime()
+        let param={
+          requestNo:requestNo,
+          operationObject:row.orderNo,
+          operationContent:JSON.stringify(this.searchParam)
+        }
+        postMethod('/permission/add-operation-record',param).then(res => {
+          // console.log('1112223435646')
+        })
+        this.$confirm('是否确认核销预留手机号为'+' '+row.phoneNo+' '+'的订单?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          postMethod('/order/write-off-order?orderNo=' + row.orderNo).then(res => {
+          postMethod('/order/write-off-order?orderNo=' + row.orderNo+'&requestNo='+requestNo).then(res => {
             this.loadList()
-            this.$message('操作成功')
+            this.$message({
+              message: "操作成功",
+              type: "success"
+            });
           })
         })
       },
       handlerReturnPOrderList() {
         this.showOrdDtl = false
+      },
+      //唯一id
+      guid() {
+        function S4() {
+          return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+        }
+        return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
       },
       async getOrdDtl(row) {
         const {
