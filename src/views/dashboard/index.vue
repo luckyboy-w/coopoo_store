@@ -466,6 +466,7 @@
   .flag {
     width: 198px;
     border: 2px solid #A49E83;
+    background-color:#A49E83;
     position: absolute;
     margin-top: -4px;
   }
