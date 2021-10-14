@@ -68,6 +68,9 @@
           <el-col :span="6">预留手机号：{{ ordDtl.appointmentMobile }}</el-col>
           <el-col :span="12">提货门店：{{ordDtl.memberStoreName}}</el-col>
         </el-row>
+		<el-row :gutter="20" class="main-content">
+		  <el-col :span="6">核销时间：{{ ordDtl.exchangeDate }}</el-col>
+		</el-row>
           </div>
 
         <div v-if="ordDtl.receiptTitle" class="info-container">

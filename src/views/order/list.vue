@@ -87,6 +87,9 @@
           <el-button icon="el-icon-search" type="primary" @click="search()">
             搜索
           </el-button>
+          <el-button icon="el-icon-download" type="primary" @click="exportData()">
+            导出
+          </el-button>
         </div>
       </div>
       <div class="ly-table-panel">
@@ -263,6 +266,9 @@
           <el-col :span="6">预约时间：{{ ordDtl.appointmentDate }}</el-col>
           <el-col :span="6">预留手机号：{{ ordDtl.appointmentMobile }}</el-col>
           <el-col :span="12">提货门店：{{ordDtl.memberStoreName}}</el-col>
+        </el-row>
+        <el-row :gutter="20" class="main-content">
+          <el-col :span="6">核销时间：{{ ordDtl.exchangeDate }}</el-col>
         </el-row>
         </div>
 
@@ -545,6 +551,20 @@
             });
           })
         })
+      },
+      exportData() {
+        let exportParam = [];
+
+        let param = JSON.parse(JSON.stringify(this.searchParam));
+        delete param.pageSize
+        delete param.pageNum
+
+        for (let key in param) {
+          exportParam.push(key + "=" + param[key]);
+        }
+        exportParam.push("token=" + getToken())
+        window.open(process.env.VUE_APP_BASE_API + '/excel/order/export?token=' + getToken() + '&' +
+          exportParam.join('&'))
       },
       handlerReturnPOrderList() {
         this.showOrdDtl = false
