@@ -124,6 +124,7 @@
     methods: {
       // 条件查询
       search(){
+		  this.searchParam.pageNum = 1;
         this.loadUser()
       },
       // 分页

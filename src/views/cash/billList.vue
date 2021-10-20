@@ -360,6 +360,7 @@ export default {
     },
     search() {
       let that = this
+	  this.searchParam.pageNum = 1;
       let param = this.searchParam
       getMethod('/bu/orderBill/findBillDtl', param).then(res => {
         that.noBillData = res.data // 返回的数据

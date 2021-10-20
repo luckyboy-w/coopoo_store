@@ -329,6 +329,7 @@
         this.loadDtlList(row)
       },
       search() {
+		  this.searchParam.pageNum = 1;
         this.loadList();
       },
       currentPage(pageNum) {
