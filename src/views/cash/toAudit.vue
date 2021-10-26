@@ -46,9 +46,9 @@
             <el-link type="primary" @click="findBillDtl(scope.row)">
               查看明细
             </el-link>
-            <el-link type="primary" v-if="scope.row.isConfirm!=1"  @click="confirmed(scope.row)">
+            <!-- <el-link type="primary" v-if="scope.row.isConfirm!=1"  @click="confirmed(scope.row)">
               确认金额
-            </el-link>
+            </el-link> -->
           </template>
         </el-table-column>
       </el-table>
