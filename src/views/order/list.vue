@@ -562,7 +562,6 @@
         for (let key in param) {
           exportParam.push(key + "=" + param[key]);
         }
-        exportParam.push("token=" + getToken())
         window.open(process.env.VUE_APP_BASE_API + '/excel/order/export?token=' + getToken() + '&' +
           exportParam.join('&'))
       },

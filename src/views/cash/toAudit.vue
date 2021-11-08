@@ -3,7 +3,7 @@
     <div v-if="showList">
       <div style="display: flex;flex-wrap: wrap;">
         <div class="tabTd">
-          <div>订单编号：</div>
+          <div>结算单号：</div>
           <div>
             <el-input v-model="searchParam.settleNo" placeholder="请输入" width="180px" />
           </div>

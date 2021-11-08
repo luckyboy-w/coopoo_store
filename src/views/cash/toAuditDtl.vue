@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="tabTd">
-        <div>入账时间：</div>
+        <div>申请时间：</div>
         <div>
           <el-date-picker v-model="searchParam.startTime" value-format="yyyy-MM-dd" type="date" placeholder="开始日期" />
            &nbsp;&nbsp;至&nbsp;&nbsp;
@@ -24,9 +24,9 @@
         <el-button @click="search()" type="primary">
             搜索
           </el-button>
-          <!-- <el-button @click="exportData()" type="primary">
-            导出Excel
-          </el-button> -->
+          <el-button icon="el-icon-download" type="primary" @click="exportData()">
+            导出
+          </el-button>
       </div>
      </div>
      <div class="ly-tool-panel" style="display: flex;flex-wrap: wrap;">
@@ -42,6 +42,15 @@
           {{ scope.row.accountTime | _formateDate }}
         </template>
       </el-table-column>
+      <el-table-column prop="goodsName" label="商品名称" />
+      <el-table-column prop="deliveryMethod" label="配送方式" >
+        <template slot-scope="scope">
+          <span v-if="scope.row.deliveryMethod==1">邮寄</span>
+          <span v-if="scope.row.deliveryMethod==2">自提</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="goodsNum" label="数量" />
+      <el-table-column prop="goodsPrice" label="商品单价" />
       <el-table-column prop="orderAmount" label="订单金额">
         <template slot-scope="scope">
           {{ scope.row.orderAmount | fmtFee }}
@@ -57,7 +66,7 @@
           {{ scope.row.settleAmount | fmtFee }}
         </template>
       </el-table-column>
-
+      <el-table-column prop="writeOffTime" label="核销时间" />
     </el-table>
     <el-pagination :total="dataList.total" background layout="prev, pager, next" @current-change="currentPage"
       @prev-click="currentPage" @next-click="currentPage" />
@@ -146,49 +155,18 @@
         this.searchParam.pageNum = pageNum;
         this.loadList();
       },
-      exportData(val) {
-        console.log(val);
-        if (this.searchParam.startTime == null) {
-          this.searchParam.startTime = ''
-        }
-        if (this.searchParam.endTime == null) {
-          this.searchParam.endTime = ''
-        }
-        let param = {
-          billNo: this.searchParam.billNo,
-          startTime: this.searchParam.startTime,
-          endTime: this.searchParam.endTime,
-          billMem: this.billMem,
-          billType: this.billType
-        }
-        console.log(param, 'param')
+      exportData() {
         let exportParam = [];
+
+        let param = JSON.parse(JSON.stringify(this.searchParam));
+        delete param.pageSize
+        delete param.pageNum
+
         for (let key in param) {
           exportParam.push(key + "=" + param[key]);
         }
-        exportParam.push("token=" + getToken())
-        window.open(process.env.VUE_APP_BASE_API + "/backend/orderBill/exportDtl?" + exportParam.join("&"));
-      },
-      exportData_() {
-        if (this.searchParam.startTime == null) {
-          this.searchParam.startTime = ''
-        }
-        if (this.searchParam.endTime == null) {
-          this.searchParam.endTime = ''
-        }
-        let param = {
-          startTime: this.searchParam.startTime,
-          endTime: this.searchParam.endTime,
-          billMem: this.billMem,
-          tenantId: this.tenantId
-        }
-        console.log(param, 'param')
-        let exportParam = [];
-        for (let key in param) {
-          exportParam.push(key + "=" + param[key]);
-        }
-        exportParam.push("token=" + getToken())
-        window.open(process.env.VUE_APP_BASE_API + "/backend/orderBill/exportWaitingDtl?" + exportParam.join("&"));
+        window.open(process.env.VUE_APP_BASE_API + '/excel/wait-list?token=' + getToken() + '&' +
+          exportParam.join('&'))
       },
       backToList() {
         this.$emit("backToList");

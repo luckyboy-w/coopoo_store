@@ -3,7 +3,7 @@
     <div v-if="showList">
       <div style="display: flex;flex-wrap: wrap;">
         <div class="tabTd">
-          <div>订单编号：</div>
+          <div>结算单号：</div>
           <div>
             <el-input v-model="searchParam.settleNo" placeholder="请输入" width="180px" />
           </div>
@@ -19,6 +19,9 @@
         <div class="tabTd">
           <el-button @click="search()" type="primary">
             搜索
+          </el-button>
+<el-button icon="el-icon-download" type="primary" @click="exportData()">
+            导出
           </el-button>
         </div>
       </div>
@@ -64,7 +67,7 @@
     formatDate
   } from "@/api/tools.js"
   import billDetail from './settlementByDtl'
-
+  import {getToken} from '@/utils/auth'
   export default {
     components: {
       billDetail
@@ -141,6 +144,18 @@
         }
         console.log(scope.detailData);
         scope.showList = false
+      },
+      exportData() {
+        // let exportParam = [];
+
+        // let param = JSON.parse(JSON.stringify(this.searchParam));
+        // delete param.pageSize
+        // delete param.pageNum
+
+        // for (let key in param) {
+        //   exportParam.push(key + "=" + param[key]);
+        // }
+        window.open(process.env.VUE_APP_BASE_API + '/excel/wait-list?token=' + getToken() + '&' +'settleStatus=3')
       },
       currentPage(pageNum) {
         this.searchParam.pageNum = pageNum;

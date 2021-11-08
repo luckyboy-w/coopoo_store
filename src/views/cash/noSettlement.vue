@@ -20,12 +20,24 @@
           <el-button @click="search()" type="primary">
             搜索
           </el-button>
+          <el-button icon="el-icon-download" type="primary" @click="exportData()">
+            导出
+          </el-button>
         </div>
       </div>
       <el-table border ref="noBillData" :data="noBillData.list" style="width: 100%; margin-bottom: 20px;" row-key="id">
         <!-- <el-table-column type="index" width="50" label="序号" /> -->
         <el-table-column prop="orderNo" label="订单编号"  />
         <el-table-column prop="accountTime" label="入账时间"  />
+        <el-table-column prop="goodsName" label="商品名称"  />
+        <el-table-column prop="deliveryMethod" label="配送方式" >
+          <template slot-scope="scope">
+            <span v-if="scope.row.deliveryMethod==1">邮寄</span>
+            <span v-if="scope.row.deliveryMethod==2">自提</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="goodsNum" label="数量"  />
+        <el-table-column prop="goodsPrice" label="商品单价"  />
         <el-table-column prop="orderAmount" label="订单金额" >
           <template slot-scope="scope">
             {{ scope.row.orderAmount | fmtFee }}
@@ -36,11 +48,12 @@
             {{ scope.row.orderPayAmount | fmtFee }}
           </template>
         </el-table-column>
-        <el-table-column prop="settleAmount" label="结算金额" >
+        <el-table-column prop="settleAmount" label="门店结算金额" >
           <template slot-scope="scope">
             {{ scope.row.settleAmount | fmtFee }}
           </template>
         </el-table-column>
+        <el-table-column prop="writeOffTime" label="核销时间"  />
         <el-table-column label="操作" >
           <template slot-scope="scope">
             <el-link type="primary" @click="findBillDtl(scope.row)">
@@ -64,7 +77,9 @@
     formatDate
   } from "@/api/tools.js"
   import orderDtl from './orderDtl'
-
+  import {
+    getToken
+  } from '@/utils/auth.js'
   export default {
     components: {
       orderDtl
@@ -128,6 +143,19 @@
       currentPage(pageNum) {
         this.searchParam.pageNum = pageNum;
         this.loadList();
+      },
+      exportData() {
+        let exportParam = [];
+
+        let param = JSON.parse(JSON.stringify(this.searchParam));
+        delete param.pageSize
+        delete param.pageNum
+
+        for (let key in param) {
+          exportParam.push(key + "=" + param[key]);
+        }
+        window.open(process.env.VUE_APP_BASE_API + '/excel/wait-list?token=' + getToken() + '&' +
+          exportParam.join('&'))
       },
       backToList() {
         this.showList = true

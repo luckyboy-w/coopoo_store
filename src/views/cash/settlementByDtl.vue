@@ -42,6 +42,15 @@
           {{ scope.row.accountTime | _formateDate }}
         </template>
       </el-table-column>
+      <el-table-column prop="goodsName" label="商品名称"/>
+      <el-table-column prop="deliveryMethod" label="配送方式" >
+        <template slot-scope="scope">
+          <span v-if="scope.row.deliveryMethod==1">邮寄</span>
+          <span v-if="scope.row.deliveryMethod==2">自提</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="goodsNum" label="数量"/>
+      <el-table-column prop="goodsPrice" label="商品单价"/>
       <el-table-column prop="orderAmount" label="订单金额">
         <template slot-scope="scope">
           {{ scope.row.orderAmount | fmtFee }}
@@ -57,6 +66,7 @@
           {{ scope.row.settleAmount | fmtFee }}
         </template>
       </el-table-column>
+      <el-table-column prop="writeOffTime" label="核销时间"/>
       <el-table-column prop="platformServiceAmount" label="服务金额">
         <template slot-scope="scope">
           {{ scope.row.platformServiceAmount | fmtFee }}
