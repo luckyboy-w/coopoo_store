@@ -8,12 +8,23 @@
             <el-input v-model="searchParam.settleNo" placeholder="请输入" width="180px" />
           </div>
         </div>
-        <div class="tabTd">
+       <div class="tabTd">
           <div>结算时间：</div>
           <div>
             <el-date-picker v-model="searchParam.startTime" value-format="yyyy-MM-dd" type="date" placeholder="开始日期" />
              &nbsp;&nbsp;至&nbsp;&nbsp;
              <el-date-picker v-model="searchParam.endTime" value-format="yyyy-MM-dd" type="date" placeholder="结束日期" />
+          </div>
+        </div>
+        <div class="tabTd">
+          <div>入账月份：</div>
+          <div>
+            <el-date-picker
+                  v-model="searchParam.accountDate"
+                  type="month"
+                  value-format="yyyy-MM"
+                  placeholder="选择月">
+                </el-date-picker>
           </div>
         </div>
         <div class="tabTd">
@@ -29,6 +40,7 @@
         <!-- <el-table-column type="index" width="50" label="序号" /> -->
         <el-table-column prop="settleNo" label="结算单号"  />
         <el-table-column prop="settleDate" label="结算时间"  />
+        <el-table-column prop="accountDate" label="入账月份"  />
         <el-table-column prop="orderAmount" label="订单金额" >
           <template slot-scope="scope">
             {{ scope.row.orderAmount | fmtFee }}
@@ -103,6 +115,7 @@
         searchParam: {
           settleNo: '',
           settleStatus:'2',
+          accountDate:'',
           startTime: '',
           endTime: '',
           pageSize: 10,
