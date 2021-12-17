@@ -37,7 +37,7 @@
         <!-- <el-table-column type="index" width="50" label="序号" /> -->
         <el-table-column prop="settleNo" label="结算单号" />
         <!-- <el-table-column prop="applySettleDate" label="申请时间" /> -->
-        <el-table-column prop="accountDate" label="入账时间">
+        <el-table-column prop="accountDate" label="入账月份">
           <template slot-scope="scope">
             {{ scope.row.accountDate}}
           </template>
