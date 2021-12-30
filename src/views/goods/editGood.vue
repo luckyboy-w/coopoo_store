@@ -76,6 +76,11 @@
                   <el-input-number v-model="scope.row.stock" :disabled="isDisabled" />
                 </template>
               </el-table-column>
+              <el-table-column v-if="dataForm.deliveryMethod==2"  align="center" prop="supplyPrice" label="供应价" width="250">
+                <template slot-scope="scope">
+                  <el-input-number :min="0" v-model="scope.row.supplyPrice" :disabled="isDisabled" />
+                </template>
+              </el-table-column>
               <el-table-column align="center" prop="marketPrice" label="建议零售价">
                 <template slot-scope="scope">
                   <el-input v-model="scope.row.marketPrice" :disabled="isDisabled" />
@@ -191,7 +196,7 @@
       <img width="100%" :src="dialogImageUrl" alt="">
     </el-dialog>
     <el-footer style="padding:0px 100px">
-      <el-button @click="submitUpdate()" type="success" v-if="isEditGood" :disabled="isDisabled">保存编辑</el-button>
+      <!-- <el-button @click="submitUpdate()" type="success" v-if="isEditGood" :disabled="isDisabled">保存编辑</el-button> -->
       <!-- <el-button @click="saveSubmit()" v-if="isEditGood" :disabled="isDisabled">保存编辑</el-button> -->
       <el-button @click="backToList()">返回列表</el-button>
     </el-footer>
