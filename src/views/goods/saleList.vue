@@ -39,6 +39,7 @@
                   <el-table-column prop="skuText" label="SKU属性" width="260px" />
                   <el-table-column prop="stock" label="库存" width="150px" />
                   <el-table-column prop="marketPrice" label="零售价" width="150px" />
+                  <el-table-column prop="supplyPrice" label="供应价" width="150px" />
                   <el-table-column prop="salePrice" label="会员价" width="150px" />
                   <el-table-column prop="goodsCode" label="物料编码" width="150px" />
                 </el-table>
@@ -47,8 +48,11 @@
             <el-table-column prop="goodsName" label="商品名称" min-width="300px">
               <template slot-scope="scope">
                 <div style="display: flex;flex-wrap: nowrap;align-items: center;line-height: 30px;">
-                <div style="min-width: 80px;height: 94px;max-width: 80px;margin-right: 10px;">
+                <div style="min-width: 80px;height: 94px;max-width: 80px;margin-right: 10px;position: relative;">
                   <el-image style="width: 100%;height: 100%;" fit="fill" :src="scope.row.goodsCoverImgUrl"></el-image>
+                  <div v-if="scope.row.goodsType==2" style="text-align: center;line-height: 25px; width: 40px;background-color: #409EFF;position: absolute;top: 0;right: 0;color:white;border-radius: 5px;">
+                    专属
+                  </div>
                 </div>
                 <div>{{scope.row.goodsName}}</div></div>
               </template>
