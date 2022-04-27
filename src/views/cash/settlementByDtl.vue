@@ -54,7 +54,14 @@
           {{ scope.row.accountTime}}
         </template>
       </el-table-column>
-      <el-table-column prop="goodsName" label="商品名称"/>
+      <el-table-column prop="goodsName" label="商品名称">
+        <template slot-scope="scope">
+          {{scope.row.goodsName}}
+          <el-tag effect="light" style="color: white;background-color: #409EFF;" size="mini" v-if="scope.row.isVipOrder==1">
+            专属
+          </el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="deliveryMethod" label="配送方式" >
         <template slot-scope="scope">
           <span v-if="scope.row.deliveryMethod==1">邮寄</span>
