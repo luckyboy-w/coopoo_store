@@ -63,7 +63,7 @@
         <el-table-column prop="writeOffTime" label="核销时间"  />
         <el-table-column label="操作" >
           <template slot-scope="scope">
-            <el-link type="primary" @click="findBillDtl(scope.row)">
+            <el-link  v-if="scope.row.deliveryMethod&&scope.row.deliveryMethod!=null" type="primary" @click="findBillDtl(scope.row)">
               订单详情
             </el-link>
           </template>
