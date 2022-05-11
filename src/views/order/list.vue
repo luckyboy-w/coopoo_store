@@ -159,7 +159,7 @@
             <el-table-column align="center" min-width="70" label="实付金额">
               <template slot-scope="scope">
                 <div v-for="(item, index) in scope.row.orderItemList" :key="index" class="mesSty2">
-                  <div>{{ item.goodsPrice*item.goodsNum}}</div>
+                  <div>{{ item.goodsPrice*item.goodsNum}}<br /><div v-if="scope.row.isEnjoyBeforePay==1" >先享后付</div> </div>
                 </div>
               </template>
             </el-table-column>
