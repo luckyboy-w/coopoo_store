@@ -99,9 +99,9 @@
           <el-button icon="el-icon-search" type="primary" @click="search()">
             搜索
           </el-button>
-          <el-button icon="el-icon-download" type="primary" @click="exportData()">
+          <!-- <el-button icon="el-icon-download" type="primary" @click="exportData()">
             导出
-          </el-button>
+          </el-button> -->
         </div>
       </div>
       <div class="ly-table-panel">
@@ -287,8 +287,15 @@
       },
       loadList() {
         const scope = this
+        let params =Object.assign({}, scope.searchParam)
+        if (params.payChannel==3) {
+          params.isBalanceOrder=1
+          params.payChannel=''
+        }else{
+          params.isBalanceOrder=''
+        }
         // requestMethod
-        getMethod('/order/virtual-order-list', this.searchParam).then(res => {
+        getMethod('/order/virtual-order-list', params).then(res => {
           scope.tableData.list = res.data.records
           scope.tableData.total = res.data.total
           scope.showPagination = scope.tableData.total == 0

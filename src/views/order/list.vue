@@ -60,6 +60,7 @@
               <el-option value="" label="全部"></el-option>
               <el-option value="2" label="微信"></el-option>
               <el-option value="1" label="支付宝"></el-option>
+              <el-option value="3" label="余额"></el-option>
             </el-select>
           </div>
         </div>
@@ -92,8 +93,8 @@
           </div>
           <div style="padding: 0 6px;">至</div>
           <div>
-            <el-date-picker style="width:200px" value-format="yyyy-MM-dd" v-model="searchParam.orderCloseEndTime" type="date"
-              placeholder="结束时间">
+            <el-date-picker style="width:200px" value-format="yyyy-MM-dd" v-model="searchParam.orderCloseEndTime"
+              type="date" placeholder="结束时间">
             </el-date-picker>
           </div>
         </div>
@@ -123,8 +124,9 @@
               <template slot-scope="scope">
                 <div v-for="(item, index) in scope.row.orderItemList" :key="index" class="mesSty">
                   <div style="position: relative;">
-                    <img class="imgSty"  :src="item.goodsImage" alt="">
-                    <div v-if="scope.row.isVipOrder==1" style="width: 50px;background-color: #409EFF;position: absolute;top: 0;right: 0;color:white;border-radius: 5px;">
+                    <img class="imgSty" :src="item.goodsImage" alt="">
+                    <div v-if="scope.row.isVipOrder==1"
+                      style="width: 50px;background-color: #409EFF;position: absolute;top: 0;right: 0;color:white;border-radius: 5px;">
                       专属
                     </div>
                   </div>
@@ -159,7 +161,9 @@
             <el-table-column align="center" min-width="70" label="实付金额">
               <template slot-scope="scope">
                 <div v-for="(item, index) in scope.row.orderItemList" :key="index" class="mesSty2">
-                  <div>{{ item.goodsPrice*item.goodsNum}}<br /><div v-if="scope.row.isEnjoyBeforePay==1" >先享后付</div> </div>
+                  <div>{{ item.goodsPrice*item.goodsNum}}<br />
+                    <div v-if="scope.row.isEnjoyBeforePay==1">先享后付</div>
+                  </div>
                 </div>
               </template>
             </el-table-column>
@@ -262,13 +266,16 @@
           <el-col :span="6">应付金额：{{ ordDtl.orderAmount }}</el-col>
           <el-col :span="6">实付金额：{{ ordDtl.orderPayAmount }}</el-col>
         </el-row>
-		<el-row :gutter="20" class="main-text">
-		  <el-col :span="6">
-		    优惠券金额：{{ ordDtl.couponFaceValue }}
-		  </el-col>
-		</el-row>
-        </div>
-        <div v-if="ordDtl.deliveryMethod==1" class="info-container">
+        <el-row :gutter="20" class="main-text">
+          <el-col :span="6">
+            优惠券金额：{{ ordDtl.couponFaceValue }}
+          </el-col>
+          <el-col :span="6">
+            余额：{{ ordDtl.balance }}
+          </el-col>
+        </el-row>
+      </div>
+      <div v-if="ordDtl.deliveryMethod==1" class="info-container">
         <!--        收货人信息-->
         <span class="main-title">
           <el-col :span="24">收货信息</el-col>
@@ -276,10 +283,12 @@
         <el-row :gutter="20" class="main-content">
           <el-col :span="6">收货人：{{ ordDtl.receiverName }}</el-col>
           <el-col :span="6">收货人电话：{{ ordDtl.receiverPhone }}</el-col>
-          <el-col :span="12">收货地址：{{ordDtl.receiverProvince}}{{ordDtl.receiverCity}}{{ordDtl.receiverRegion}}{{ordDtl.receiverAddress}}</el-col>
+          <el-col :span="12">
+            收货地址：{{ordDtl.receiverProvince}}{{ordDtl.receiverCity}}{{ordDtl.receiverRegion}}{{ordDtl.receiverAddress}}
+          </el-col>
         </el-row>
-        </div>
-        <div v-if="ordDtl.deliveryMethod==2" class="info-container">
+      </div>
+      <div v-if="ordDtl.deliveryMethod==2" class="info-container">
         <!--        提货信息-->
         <span class="main-title">
           <el-col :span="24">提货信息</el-col>
@@ -292,11 +301,11 @@
         <el-row :gutter="20" class="main-content">
           <el-col :span="6">核销时间：{{ ordDtl.exchangeDate }}</el-col>
         </el-row>
-        </div>
+      </div>
 
-        <div v-if="ordDtl.receiptTitle" class="info-container">
+      <div v-if="ordDtl.receiptTitle" class="info-container">
         <!--        发票信息-->
-        <span class="main-title" >
+        <span class="main-title">
           <el-col :span="24">发票信息</el-col>
         </span>
         <el-row :gutter="20" class="main-content">
@@ -312,7 +321,7 @@
           <el-col :span="6" v-if="ordDtl.receiptTitle == '1'">公司税号：{{ ordDtl.receiptCompanyTaxNo }}</el-col>
           <el-col :span="6"></el-col>
         </el-row>
-        </div>
+      </div>
       <!--        物流信息-->
       <div style="width: 100%;display: flex;">
         <div style="width: 60%; box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
@@ -376,7 +385,7 @@
             </el-col>
           </el-row>
           <div>
-                          {{ordDtl.remark?ordDtl.remark:'暂无备注'}}
+            {{ordDtl.remark?ordDtl.remark:'暂无备注'}}
           </div>
         </div>
       </div>
@@ -503,13 +512,14 @@
         showPagination: false,
         editData: {},
         searchParam: {
-          registerPhoneNo:'',
+          isBalanceOrder:'',
+          registerPhoneNo: '',
           phoneNo: '',
           userName: '',
           goodsName: '',
           endCreateTime: '',
-          orderCloseStartTime:'',
-          orderCloseEndTime:'',
+          orderCloseStartTime: '',
+          orderCloseEndTime: '',
           orderNo: '',
           startCreateTime: '',
           orderStatus: '',
@@ -542,7 +552,7 @@
       this.initLoad()
     },
     created() {
-      console.log('id',this.guid());
+      console.log('id', this.guid());
     },
     methods: {
       // loadUserInfo(){
@@ -553,21 +563,21 @@
       writeOff(row) {
         // console.log(row,JSON.stringify(this.searchParam))
         // console.log(this.guid()+getToken()+new Date().getTime())
-        let requestNo=this.guid() + getToken() + new Date().getTime()
-        let param={
-          requestNo:requestNo,
-          operationObject:row.orderNo,
-          operationContent:JSON.stringify(this.searchParam)
+        let requestNo = this.guid() + getToken() + new Date().getTime()
+        let param = {
+          requestNo: requestNo,
+          operationObject: row.orderNo,
+          operationContent: JSON.stringify(this.searchParam)
         }
-        postMethod('/permission/add-operation-record',param).then(res => {
+        postMethod('/permission/add-operation-record', param).then(res => {
           // console.log('1112223435646')
         })
-        this.$confirm('是否确认核销预留手机号为'+' '+row.phoneNo+' '+'的订单?', '提示', {
+        this.$confirm('是否确认核销预留手机号为' + ' ' + row.phoneNo + ' ' + '的订单?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          postMethod('/order/write-off-order?orderNo=' + row.orderNo+'&requestNo='+requestNo).then(res => {
+          postMethod('/order/write-off-order?orderNo=' + row.orderNo + '&requestNo=' + requestNo).then(res => {
             this.loadList()
             this.$message({
               message: "操作成功",
@@ -578,8 +588,14 @@
       },
       exportData() {
         let exportParam = [];
-
-        let param = JSON.parse(JSON.stringify(this.searchParam));
+        let params =Object.assign({}, this.searchParam)
+        if (params.payChannel==3) {
+          params.isBalanceOrder=1
+          params.payChannel=''
+        }else{
+          params.isBalanceOrder=''
+        }
+        let param = JSON.parse(JSON.stringify(params));
         delete param.pageSize
         delete param.pageNum
 
@@ -595,9 +611,9 @@
       //唯一id
       guid() {
         function S4() {
-          return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+          return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
         }
-        return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+        return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
       },
       async getOrdDtl(row) {
         const {
@@ -684,7 +700,14 @@
       },
       loadList() {
         const scope = this
-        getMethod('/order/search-order-list', this.searchParam).then(res => {
+        let params =Object.assign({}, scope.searchParam)
+        if (params.payChannel==3) {
+          params.isBalanceOrder=1
+          params.payChannel=''
+        }else{
+          params.isBalanceOrder=''
+        }
+        getMethod('/order/search-order-list',params ).then(res => {
           scope.tableData.list = res.data.records
           scope.tableData.total = res.data.total
           scope.showPagination = scope.tableData.total == 0
@@ -695,9 +718,11 @@
 </script>
 <style lang="scss" scoped>
   @import "~@/styles/variables.scss";
-	.el-carousel__item {
-	    overflow-y: auto!important;
-	}
+
+  .el-carousel__item {
+    overflow-y: auto !important;
+  }
+
   .ly-container {
     font-size: 14px;
 
