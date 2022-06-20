@@ -20,13 +20,13 @@ import './permission' // permission control
 import './utils/error-log' // error log
 import './assets/icon/iconfont.css'
 import global_variable from './api/global_variable'
-import ECharts from 'vue-echarts'
-import 'echarts/lib/chart/line'
+// import ECharts from 'vue-echarts'
+// import 'echarts/lib/chart/line'
 
 import * as filters from './filters' // global filters
 Vue.prototype.GLOBAL = global_variable
 Vue.use(quillEditor)
-Vue.component('chart', ECharts)
+// Vue.component('chart', ECharts)
 
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'

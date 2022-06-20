@@ -8,7 +8,7 @@
             <el-input v-model="searchParam.settleNo" placeholder="请输入" width="180px" />
           </div>
         </div>
-       <!-- <div class="tabTd">
+        <!-- <div class="tabTd">
           <div>申请时间：</div>
           <div>
             <el-date-picker v-model="searchParam.startTime" value-format="yyyy-MM-dd" type="date" placeholder="开始日期" />
@@ -20,26 +20,26 @@
           <div>入账月份：</div>
           <div>
             <el-date-picker
-                  v-model="searchParam.accountDate"
-                  type="month"
-                  value-format="yyyy-MM"
-                  placeholder="选择月">
-                </el-date-picker>
+              v-model="searchParam.accountDate"
+              type="month"
+              value-format="yyyy-MM"
+              placeholder="选择月"
+            />
           </div>
         </div>
         <div class="tabTd">
-          <el-button @click="search()" type="primary">
+          <el-button type="primary" @click="search()">
             搜索
           </el-button>
         </div>
       </div>
-      <el-table border ref="noBillData" :data="noBillData.list" style="width: 100%; margin-bottom: 20px;" row-key="id">
+      <el-table ref="noBillData" border :data="noBillData.list" style="width: 100%; margin-bottom: 20px;" row-key="id">
         <!-- <el-table-column type="index" width="50" label="序号" /> -->
         <el-table-column prop="settleNo" label="结算单号" />
         <!-- <el-table-column prop="applySettleDate" label="申请时间" /> -->
         <el-table-column prop="accountDate" label="入账月份">
           <template slot-scope="scope">
-            {{ scope.row.accountDate}}
+            {{ scope.row.accountDate }}
           </template>
         </el-table-column>
         <el-table-column prop="orderAmount" label="订单金额">
@@ -52,9 +52,24 @@
             {{ scope.row.orderPayAmount | fmtFee }}
           </template>
         </el-table-column>
-        <el-table-column prop="settleAmount" label="结算金额">
+        <el-table-column prop="test" label="预计结算金额">
           <template slot-scope="scope">
-            {{ scope.row.settleAmount | fmtFee }}
+            {{ scope.row.test | fmtFee }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="test" label="平台服务费">
+          <template slot-scope="scope">
+            {{ scope.row.test | fmtFee }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="test" label="分销佣金">
+          <template slot-scope="scope">
+            {{ scope.row.test | fmtFee }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="test" label="实际结算金额">
+          <template slot-scope="scope">
+            {{ scope.row.test | fmtFee }}
           </template>
         </el-table-column>
         <el-table-column label="操作">
@@ -68,131 +83,137 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination :total="noBillData.total" background layout="prev, pager, next" @current-change="currentPage"
-        @prev-click="currentPage" @next-click="currentPage" />
+      <el-pagination
+        :total="noBillData.total"
+        background
+        layout="prev, pager, next"
+        @current-change="currentPage"
+        @prev-click="currentPage"
+        @next-click="currentPage"
+      />
     </div>
     <billDetail v-if="!showList" ref="billDetail" :detail-data="detailData" @backToList="backToList" />
   </div>
 </template>
 <script>
-  import {
-    getMethod,
-    postMethod
-  } from "@/api/request";
-  import {
-    formatDate
-  } from "@/api/tools.js"
-  import billDetail from './toAuditDtl'
+import {
+  getMethod,
+  postMethod
+} from '@/api/request'
+import {
+  formatDate
+} from '@/api/tools.js'
+import billDetail from './toAuditDtl'
 
-  export default {
-    components: {
-      billDetail
-    },
-    filters: {
-      _formateDate(time) {
-        if (time == undefined) {
-          return '';
-        }
-        let date = new Date(time);
-        return formatDate(date, 'yyyy-MM-dd')
-      },
-      fmtFee(fee) {
-        if (fee == undefined) {
-          return '';
-        }
-        fee = fee + ''
-        if (fee.indexOf(".") == -1) {
-          return fee + ".00";
-        }
-        return fee;
+export default {
+  components: {
+    billDetail
+  },
+  filters: {
+    _formateDate(time) {
+      if (time == undefined) {
+        return ''
       }
+      const date = new Date(time)
+      return formatDate(date, 'yyyy-MM-dd')
     },
-    props: {
+    fmtFee(fee) {
+      if (fee == undefined) {
+        return ''
+      }
+      fee = fee + ''
+      if (fee.indexOf('.') == -1) {
+        return fee + '.00'
+      }
+      return fee
+    }
+  },
+  props: {
 
-    },
-    data() {
-      return {
-        tabIndex: 0,
-        showList: true,
-        detailData: {},
-        //10:未结算;20:结算中;30:已结算
-        searchParam: {
-          accountDate:'',
-          settleNo: '',
-          settleStatus:'1',
-          // startTime: '',
-          // endTime: '',
-          pageSize: 10,
-          pageNum: 1
-        },
-        noBillData: {
-          list: [],
-          total: 0
-        },
-      };
-    },
-    mounted() {
-      this.loadList();
-    },
-    methods: {
-      search() {
-        this.searchParam.pageNum = '1'
-        this.loadList();
+  },
+  data() {
+    return {
+      tabIndex: 0,
+      showList: true,
+      detailData: {},
+      // 10:未结算;20:结算中;30:已结算
+      searchParam: {
+        accountDate: '',
+        settleNo: '',
+        settleStatus: '1',
+        // startTime: '',
+        // endTime: '',
+        pageSize: 10,
+        pageNum: 1
       },
-      backToList() {
-        this.showList = true
-      },
-      batchBill() {
-        let selData = this.$refs.noBillData.selection
-        let id = [];
-        selData.forEach(data => {
-          id.push(data.pkBillId)
-        });
-        this.billOrd(id.join(","))
-      },
-      singleBill(row) {
-        this.billOrd(row.pkBillId)
-      },
-      confirmed(row) {
-        let scope = this
-        this.$confirm('是否进行确认金额操作?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'success'
-        }).then(() => {
-          postMethod('/settlement/confirm?id='+row.id).then(res => {
-            this.$message({
-              message: '操作成功',
-              type: 'success'
-            })
-            scope.loadList()
-          })
-        })
-      },
-      findBillDtl(row) {
-        console.log(row)
-        let scope = this
-        scope.detailData={
-            settleNo:row.settleNo,
-        }
-        console.log(scope.detailData);
-        scope.showList = false
-      },
-      currentPage(pageNum) {
-        this.searchParam.pageNum = pageNum;
-        this.loadList();
-      },
-      loadList() {
-        let scope = this
-        let param = this.searchParam
-        getMethod("/settlement/process-list", param).then(res => {
-          scope.noBillData.list = res.data.records
-          scope.noBillData.total = res.data.total;
-          scope.showPagination = scope.noBillData.total == 0;
-        });
+      noBillData: {
+        list: [],
+        total: 0
       }
     }
-  };
+  },
+  mounted() {
+    this.loadList()
+  },
+  methods: {
+    search() {
+      this.searchParam.pageNum = '1'
+      this.loadList()
+    },
+    backToList() {
+      this.showList = true
+    },
+    batchBill() {
+      const selData = this.$refs.noBillData.selection
+      const id = []
+      selData.forEach(data => {
+        id.push(data.pkBillId)
+      })
+      this.billOrd(id.join(','))
+    },
+    singleBill(row) {
+      this.billOrd(row.pkBillId)
+    },
+    confirmed(row) {
+      const scope = this
+      this.$confirm('是否进行确认金额操作?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'success'
+      }).then(() => {
+        postMethod('/settlement/confirm?id=' + row.id).then(res => {
+          this.$message({
+            message: '操作成功',
+            type: 'success'
+          })
+          scope.loadList()
+        })
+      })
+    },
+    findBillDtl(row) {
+      console.log(row)
+      const scope = this
+      scope.detailData = {
+        settleNo: row.settleNo
+      }
+      console.log(scope.detailData)
+      scope.showList = false
+    },
+    currentPage(pageNum) {
+      this.searchParam.pageNum = pageNum
+      this.loadList()
+    },
+    loadList() {
+      const scope = this
+      const param = this.searchParam
+      getMethod('/settlement/process-list', param).then(res => {
+        scope.noBillData.list = res.data.records
+        scope.noBillData.total = res.data.total
+        scope.showPagination = scope.noBillData.total == 0
+      })
+    }
+  }
+}
 </script>
 <style scoped>
   .tabTd {
