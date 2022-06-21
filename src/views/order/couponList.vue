@@ -41,9 +41,9 @@
           <div>优惠券类型：</div>
           <div>
             <el-select v-model="searchParam.couponType" placeholder="请选择">
-              <!-- <el-option value="" label="全部"></el-option> -->
-              <!-- <el-option value="2" label="线上优惠券"></el-option> -->
-              <el-option value="" label="线下优惠券"></el-option>
+              <el-option value="" label="全部"></el-option>
+              <el-option value="2" label="线上优惠券"></el-option>
+              <el-option value="1" label="线下优惠券"></el-option>
             </el-select>
           </div>
         </div>

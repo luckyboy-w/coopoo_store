@@ -80,24 +80,24 @@
           {{ scope.row.orderPayAmount | fmtFee }}
         </template>
       </el-table-column>
-      <el-table-column prop="test" label="预计结算金额">
+      <el-table-column prop="preSettleAmount" label="预计结算金额">
         <template slot-scope="scope">
-          {{ scope.row.test | fmtFee }}
+          {{ scope.row.preSettleAmount | fmtFee }}
         </template>
       </el-table-column>
-      <el-table-column prop="test" label="平台服务费">
+      <el-table-column prop="platformServiceAmount" label="平台服务费">
         <template slot-scope="scope">
-          {{ scope.row.test | fmtFee }}
+          {{ scope.row.platformServiceAmount | fmtFee }}
         </template>
       </el-table-column>
-      <el-table-column prop="test" label="分销佣金">
+      <el-table-column prop="commissionPrice" label="分销佣金">
         <template slot-scope="scope">
-          {{ scope.row.test | fmtFee }}
+          {{ scope.row.commissionPrice | fmtFee }}
         </template>
       </el-table-column>
-      <el-table-column prop="test" label="实际结算金额">
+      <el-table-column prop="actualSettleAmount" label="实际结算金额">
         <template slot-scope="scope">
-          {{ scope.row.test | fmtFee }}
+          {{ scope.row.actualSettleAmount | fmtFee }}
         </template>
       </el-table-column>
       <el-table-column prop="writeOffTime" label="核销时间" />
