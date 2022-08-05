@@ -567,7 +567,9 @@
         let param = {
           requestNo: requestNo,
           operationObject: row.orderNo,
-          operationContent: JSON.stringify(this.searchParam)
+          operationContent: JSON.stringify(this.searchParam),
+          operationType: "store_record",
+          operationModuleName: "门店操作核销记录"
         }
         postMethod('/permission/add-operation-record', param).then(res => {
           // console.log('1112223435646')
