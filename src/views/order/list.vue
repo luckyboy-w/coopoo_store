@@ -65,6 +65,17 @@
           </div>
         </div>
         <div class="tabTd">
+          <div>开票状态：</div>
+          <div>
+            <el-select v-model="searchParam.receiptStatus" placeholder="请选择">
+              <el-option value="" label="全部"></el-option>
+              <el-option value="1" label="无需开票"></el-option>
+              <el-option value="2" label="未开票"></el-option>
+              <el-option value="3" label="已开票"></el-option>
+            </el-select>
+          </div>
+        </div>
+        <div class="tabTd">
           <div>注册手机号：</div>
           <div>
             <el-input v-model="searchParam.registerPhoneNo" width="180px" placeholder="请输入" />
@@ -113,7 +124,11 @@
             <el-table-column width="1">
               <template slot-scope="scope">
                 <div class="item">
-                  <span style="margin-left:150px">订单编号：{{ scope.row.orderNo }}</span>
+                  <span style="margin-left:150px">订单编号：{{ scope.row.orderNo }}
+                    <el-tag effect="light" size="mini" v-if="scope.row.isInvoiced==1">
+                    已开票
+                    </el-tag>
+                  </span>
                   <span style="margin-left:150px">订单总额：{{ scope.row.orderAmount }}</span>
                   <span style="margin-left:150px">下单时间：{{ scope.row.createTime }}</span>
                   <span style="margin-left:150px">注册手机号：{{ scope.row.registerPhoneNo }}</span>
@@ -198,6 +213,10 @@
                           <template>
                             <el-button type="primary" v-if="scope.row.orderStatus==5" size="mini"
                               @click="writeOff(scope.row)">核销
+                            </el-button>
+                            <el-button type="primary" v-if="scope.row.isInvoiced===0&&scope.row.orderStatus!==0"
+                              size="mini" @click="makeInvoice(scope.row)">
+                              开具发票
                             </el-button>
                           </template>
                         </el-button-group>
@@ -512,6 +531,7 @@
         showPagination: false,
         editData: {},
         searchParam: {
+          receiptStatus:'',
           isBalanceOrder:'',
           registerPhoneNo: '',
           phoneNo: '',
@@ -560,6 +580,24 @@
       //     this.accountId=res.data.
       //   })
       // },
+      //列表开具发票
+      makeInvoice(data) {
+        this.$confirm('是否给该订单开具发票?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          getMethod('/order/print-invoice', {
+            orderNo: data.orderNo
+          }).then(res => {
+            this.loadList()
+            this.$message({
+              message: '操作成功',
+              type: 'success'
+            })
+          })
+        })
+      },
       writeOff(row) {
         // console.log(row,JSON.stringify(this.searchParam))
         // console.log(this.guid()+getToken()+new Date().getTime())
