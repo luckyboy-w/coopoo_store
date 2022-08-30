@@ -125,7 +125,7 @@
               <template slot-scope="scope">
                 <div class="item">
                   <span style="margin-left:150px">订单编号：{{ scope.row.orderNo }}
-                    <el-tag effect="light" size="mini" v-if="scope.row.isInvoiced==1">
+                    <el-tag effect="light" size="mini" v-if="scope.row.receiptIsInvoiced==1">
                     已开票
                     </el-tag>
                   </span>
@@ -214,7 +214,7 @@
                             <el-button type="primary" v-if="scope.row.orderStatus==5" size="mini"
                               @click="writeOff(scope.row)">核销
                             </el-button>
-                            <el-button type="primary" v-if="scope.row.isInvoiced===0&&scope.row.orderStatus!==0"
+                            <el-button type="primary" v-if="scope.row.receiptIsInvoiced===0&&scope.row.orderStatus!==0"
                               size="mini" @click="makeInvoice(scope.row)">
                               开具发票
                             </el-button>
