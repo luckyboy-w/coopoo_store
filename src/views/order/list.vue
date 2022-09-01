@@ -214,7 +214,7 @@
                             <el-button type="primary" v-if="scope.row.orderStatus==5" size="mini"
                               @click="writeOff(scope.row)">核销
                             </el-button>
-                            <el-button type="primary" v-if="scope.row.receiptIsInvoiced===0&&scope.row.orderStatus!==0"
+                            <el-button type="primary" v-if="scope.row.receiptIsInvoiced=='0'&&scope.row.orderStatus!==0"
                               size="mini" @click="makeInvoice(scope.row)">
                               开具发票
                             </el-button>
