@@ -76,6 +76,16 @@
           </div>
         </div>
         <div class="tabTd">
+          <div>购买类型：</div>
+          <div>
+            <el-select v-model="searchParam.isEnjoyBeforePay" placeholder="请选择">
+              <el-option value="" label="全部"></el-option>
+              <el-option value="0" label="立即购买"></el-option>
+              <el-option value="1" label="先享后付"></el-option>
+            </el-select>
+          </div>
+        </div>
+        <div class="tabTd">
           <div>注册手机号：</div>
           <div>
             <el-input v-model="searchParam.registerPhoneNo" width="180px" placeholder="请输入" />
@@ -531,6 +541,7 @@
         showPagination: false,
         editData: {},
         searchParam: {
+          isEnjoyBeforePay:'',
           receiptStatus:'',
           isBalanceOrder:'',
           registerPhoneNo: '',
