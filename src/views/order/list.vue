@@ -292,8 +292,8 @@
         <el-row :gutter="20" class="main-content">
           <el-col :span="6">付款方式：{{ ordDtl.payChannel | pay2Text }}</el-col>
           <el-col :span="6">订单金额：{{ ordDtl.orderAmount }}</el-col>
-          <el-col :span="6">应付金额：{{ ordDtl.orderAmount }}</el-col>
-          <el-col :span="6">实付金额：{{ ordDtl.orderPayAmount }}</el-col>
+          <el-col :span="6">应付金额：{{ ordDtl.orderActualPayAmount }}</el-col>
+          <el-col :span="6">第三方支付：{{ ordDtl.orderPayAmount }}</el-col>
         </el-row>
         <el-row :gutter="20" class="main-text">
           <el-col :span="6">
@@ -455,7 +455,7 @@
         } else if (pay == 2) {
           return '微信'
         } else if (pay == 3) {
-          return '微信'
+          return '余额'
         }
         return '未支付'
       },
