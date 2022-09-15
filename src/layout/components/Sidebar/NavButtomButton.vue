@@ -172,6 +172,9 @@ export default {
 .sidebar-logo-container {
   margin-top: 15vh;
   //width: 100%;
+  position: sticky;
+  bottom: 0;
+  background-color: white;
   width: $sideBarWidth;
   height: 15vh;
   overflow: hidden;
