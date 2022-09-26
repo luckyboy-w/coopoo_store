@@ -130,7 +130,10 @@
                 </el-col>
               </el-row>
               <div>
-                <div class="steps-view">
+                <div v-if="!expressItem.traces||expressItem.traces==null">
+                  物流单号错误
+                </div>
+                <div class="steps-view" v-if="expressItem.traces&&expressItem.traces!=null">
                   <div class="steps" v-for="tracesItem in expressItem.traces">
                     <div style="min-width: 100px;text-align: right;">
                       <div>{{ tracesItem.time1 }}</div>
