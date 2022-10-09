@@ -3,7 +3,8 @@
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
     <sidebar class="sidebar-container" />
     <div :class="{hasTagsView:needTagsView}" class="main-container">
-      <div :class="{'fixed-header':fixedHeader}">
+		<div style="margin:0 -3vw;height: 6vh;background-color: #f6f6f6;z-index: 1000;width: 100vw;position: sticky;top: 0;"></div>
+      <div :class="{'fixed-header':fixedHeader}"  style="margin:0 -3vw;padding-left: 3vw; position: sticky;top: 6vh;background-color: #f6f6f6;z-index: 1000;">
         <navbar />
       </div>
       <app-main />
