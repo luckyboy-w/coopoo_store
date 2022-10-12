@@ -55,6 +55,7 @@
             {{ scope.row.orderPayAmount | fmtFee }}
           </template>
         </el-table-column>
+        <el-table-column prop="partnerSettleAmount" label="合伙人佣金" />
         <el-table-column prop="settleAmount" label="门店结算金额" >
           <template slot-scope="scope">
             {{ scope.row.settleAmount | fmtFee }}
