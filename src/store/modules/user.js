@@ -15,8 +15,10 @@ const state = {
   avatar: '',
   introduction: '',
   roles: [],
-  supplierName: '',
-  supplierAvatar: ''
+  storeName: '',
+  storeAvatar: '',
+  storeUserInfo:JSON.parse(sessionStorage.getItem("STOREUSERINFO")) || {},
+  accountType:''
 }
 
 const mutations = {
@@ -38,12 +40,19 @@ const mutations = {
   SET_MENUS: (state, menus) => {
     state.menus = menus
   },
-  SET_SUPPLIER_NAME: (state, payload) => {
-    state.supplierName = payload
+  SET_STORE_NAME: (state, payload) => {
+    state.storeName = payload
   },
-  SET_SUPPLIER_AVATAR: (state, payload) => {
-    state.supplierAvatar = payload
-  }
+  SET_STORE_AVATAR: (state, payload) => {
+    state.storeAvatar = payload
+  },
+  SET_STOREUSERINFO: (state, storeuserinfo) => {
+    state.storeUserInfo = storeuserinfo
+    sessionStorage.setItem("STOREUSERINFO", JSON.stringify(storeuserinfo))
+  },
+  SET_STORE_ACCOUNTYPE:(state, accounttype) => {
+    state.accountType = accounttype
+  },
 }
 
 const actions = {
@@ -71,7 +80,7 @@ const actions = {
         const { data } = response
         commit('SET_TOKEN', data.token)
         setToken(data.token)
-        resolve()
+        resolve(response)
       }).catch(error => {
         reject(error)
       })
@@ -168,11 +177,13 @@ const actions = {
 
   // get user info
    getUserInfo({ commit, state }) {
-    commit('SET_SUPPLIER_AVATAR','https://bucket.coopoo.com/2021-07-02/20210702143733wTIhIAetaroVmRLvErQuPyUhgUsKrATR.png')
+    commit('SET_STORE_AVATAR','https://bucket.coopoo.com/2021-07-02/20210702143733wTIhIAetaroVmRLvErQuPyUhgUsKrATR.png')
     // const { data } = await getUserInfo()
     getUserInfo().then(response => {
       const { data } = response
-    commit('SET_SUPPLIER_NAME',data.storeName)
+    commit('SET_STORE_NAME',data.storeName)
+    commit('SET_STORE_ACCOUNTYPE',data.accountType)
+    commit('SET_STOREUSERINFO',data)
     console.log(data)
     }).catch(error => {
       reject(error)

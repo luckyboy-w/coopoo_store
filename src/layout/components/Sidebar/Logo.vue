@@ -1,13 +1,13 @@
 <template>
   <div class="sidebar-logo-container" :class="{'collapse':collapse}">
     <transition name="sidebarLogoFade">
-      <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/">
-        <img v-if="supplierAvatar" :src="supplierAvatar" class="sidebar-logo-smail">
-        <h1 v-else class="sidebar-title">{{ supplierName }} </h1>
+      <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" :to="jumpUrl">
+        <img v-if="storeAvatar" :src="storeAvatar" class="sidebar-logo-smail">
+        <h1 v-else class="sidebar-title">{{ storeName }} </h1>
       </router-link>
-      <router-link v-else key="expand" class="sidebar-logo-link" to="/">
-        <img v-if="supplierAvatar" :src="supplierAvatar" class="sidebar-logo">
-        <h1 class="sidebar-title">{{ supplierName }} </h1>
+      <router-link v-else key="expand" class="sidebar-logo-link" :to="jumpUrl">
+        <img v-if="storeAvatar" :src="storeAvatar" class="sidebar-logo">
+        <div class="sidebar-title">{{ storeName }} {{ storeUserInfo.accountType==4? '('+storeUserInfo.userName+')' :''}} </div>
       </router-link>
     </transition>
   </div>
@@ -28,14 +28,25 @@ export default {
   data() {
     return {
       title: 'Vue Element Admin',
-      logo: ''
+      logo: '',
+      jumpUrl:'/'
     }
   },
   computed: {
     ...mapState('user', {
-      supplierName: 'supplierName',
-      supplierAvatar: 'supplierAvatar'
+      storeName: 'storeName',
+      storeAvatar: 'storeAvatar',
+      storeUserInfo:'storeUserInfo',
+      accountType:'accountType'
     })
+  },
+  mounted() {
+    console.log('storeUserInfo',this.storeUserInfo.accountType)
+    if (this.storeUserInfo.accountType==4) {
+      this.jumpUrl='/partnerModule/settlement/settlementList'
+    } else{
+      this.jumpUrl='/'
+    }
   }
 }
 </script>
@@ -67,7 +78,7 @@ export default {
 
     & .sidebar-logo {
       position: absolute;
-      top: 50%;
+      top: 40%;
       left: 50%;
       transform: translate(-50%, -50%);
       width: 10vh;
@@ -81,7 +92,7 @@ export default {
 
     & .sidebar-logo-smail {
       position: absolute;
-      top: 50%;
+      top: 40%;
       left: 50%;
       transform: translate(-50%, -50%);
       width: 32px;
@@ -91,7 +102,7 @@ export default {
 
     & .sidebar-title {
       position: absolute;
-      top: 80%;
+      top: 70%;
       left: 50%;
       transform: translate(-50%, -50%);
       display: block;
@@ -103,6 +114,7 @@ export default {
       font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
       vertical-align: middle;
     }
+
   }
 
   &.collapse {

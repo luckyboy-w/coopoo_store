@@ -81,6 +81,7 @@
 import { validUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
 import SocialSign from './components/SocialSignin'
+import { getMethod, postMethod } from '@/api/request'
 
 export default {
   name: 'Login',
@@ -115,7 +116,7 @@ export default {
       buLoading: false,
       showDialog: false,
       redirect: undefined,
-      otherQuery: {}
+      otherQuery: {},
     }
   },
   watch: {
@@ -163,9 +164,16 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm)
-            .then(() => {
+            .then((res) => {
               // this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
-              this.$router.push({ path: '/' })
+              console.log('getUserInfo',res.data)
+              if (res.data.accountType==4) {
+                console.log(88888888)
+                // this.$router.push({ path: '/' })
+                this.$router.push({ path: '/partnerModule/settlement/settlementList' })
+              } else{
+                this.$router.push({ path: '/' })
+              }
               this.loading = false
             })
             .catch(() => {
