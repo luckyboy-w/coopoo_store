@@ -3,11 +3,11 @@
   <div class="sidebar-logo-container" :class="{'collapse':collapse}">
     <!--    不使用动画,代码保留-->
     <!--    <transition-group name="sidebarBottomFade">-->
-	<div v-if="collapse" key="collapse" class="sidebar-logo-link" @click="downQrcode()">
+	<div v-if="collapse&&accountType!=4" key="collapse" class="sidebar-logo-link" @click="downQrcode()">
 	  <img :src="qrCode" class="sidebar-logo">
 	  <span class="sidebar-title" style="visibility: hidden">门店二维码</span>
 	</div>
-	<div v-else key="expand" class="sidebar-logo-link" @click="downQrcode()">
+	<div v-if="!collapse&&accountType!=4" key="expand" class="sidebar-logo-link" @click="downQrcode()">
 	  <img :src="qrCode" class="sidebar-logo">
 	  <span class="sidebar-title">门店二维码</span>
 	</div>
@@ -87,6 +87,11 @@ export default {
   },
   created() {
     this.getUser()
+  },
+  computed: {
+    accountType() {
+      return this.$store.state.user.storeUserInfo.accountType;
+    }
   },
   methods: {
     close() {

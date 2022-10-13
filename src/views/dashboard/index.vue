@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="this.accountType == 3">
+    <div v-if="accountType == 3">
       <div class="panel-group">
         <div class="card-panel-col">
           <router-link to="/cash/toAudit">
@@ -144,7 +144,7 @@
 
       <div><div id="main" style="width: 100%;height:600px;"></div></div>
     </div>
-    <div v-if="this.accountType == 4"><img style="width: 100%;height: 100%;" src="../../assets/partnerIndex.png" /></div>
+    <div v-if="accountType == 4"><img style="width: 100%;height: 100%;" src="../../assets/partnerIndex.png" /></div>
   </div>
 </template>
 
