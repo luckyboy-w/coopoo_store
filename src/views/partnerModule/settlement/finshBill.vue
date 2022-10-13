@@ -91,7 +91,7 @@ export default {
         settled:scope.searchParam,
         settleStatus:2
       }
-      postMethod('/settlement/partner/list', param).then(res => {
+      postMethod('/settlement/partner/list/myself', param).then(res => {
        scope.settledData.list = res.data.settledList.records;
        scope.settledData.total = res.data.settledList.total;
        scope.showPagination = scope.settledData.total == 0;

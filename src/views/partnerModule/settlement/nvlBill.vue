@@ -71,9 +71,9 @@ export default {
         noSettleItem:scope.searchParam,
         settleStatus:0
       }
-      postMethod('/settlement/partner/item/list', param).then(res => {
-        scope.dataList.list = res.data.noSettleItemList.records;
-        scope.dataList.total = res.data.noSettleItemList.total;
+      postMethod('/settlement/partner/list/myself', param).then(res => {
+        scope.dataList.list = res.data.noSettleList.records;
+        scope.dataList.total = res.data.noSettleList.total;
         scope.showPagination = scope.dataList.total == 0;
       });
     },

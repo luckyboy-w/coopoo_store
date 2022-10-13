@@ -92,7 +92,7 @@ export default {
         allowSettle:scope.searchParam,
         settleStatus:1
       }
-      postMethod('/settlement/partner/list', param).then(res => {
+      postMethod('/settlement/partner/list/myself', param).then(res => {
         scope.allowSettleData.list = res.data.allowSettleList.records;
         scope.allowSettleData.total = res.data.allowSettleList.total;
         scope.showPagination = scope.allowSettleData.total == 0;

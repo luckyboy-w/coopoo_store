@@ -16,7 +16,14 @@
       </div>
     </div>
     <el-table border ref="dtlTable" :data="dataList.list" style="width: 100%; margin-bottom: 20px;" row-key="id">
-      <el-table-column prop="orderNo" label="订单编号" />
+      <el-table-column prop="orderNo" label="订单编号">
+        <template slot-scope="scope">
+          {{scope.row.orderNo}}
+          <el-tag effect="light" style="color: white;background-color: #409EFF;" size="mini" v-if="scope.row.isVipOrder==1">
+            专属
+          </el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="accountDate" label="入账月份" />
       <el-table-column prop="orderAmount" label="订单金额" />
       <el-table-column prop="orderPayAmount" label="实付金额" />
@@ -81,7 +88,7 @@ export default {
         allowSettleItem:scope.searchParam,
         settleStatus:1
       }
-      postMethod('/settlement/partner/item/list', param).then(res => {
+      postMethod('/settlement/partner/item/myself', param).then(res => {
         scope.dataList.list = res.data.allowSettleItemList.records;
         scope.dataList.total = res.data.allowSettleItemList.total;
         scope.showPagination = scope.dataList.total == 0;
