@@ -30,6 +30,7 @@
         <el-table-column prop="partnerSettleAmount" label="合伙人佣金" />
         <el-table-column label="操作">
           <template slot-scope="scope">
+            <el-button size="mini" type="primary" @click="confirmed(scope.row)">结算</el-button>
             <el-button size="mini" type="primary" @click="findBillDtl(scope.row)">查看明细</el-button>
           </template>
         </el-table-column>
@@ -83,6 +84,22 @@ export default {
       let that = this;
       this.searchParam.pageNum = 1;
       this.loadList();
+    },
+    confirmed(row) {
+      const scope = this
+      this.$confirm('是否进行确认结算操作?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'success'
+      }).then(() => {
+        postMethod('/settlement/partner/confirm/' + {settleNo:row.settleNo} ).then(res => {
+          this.$message({
+            message: '操作成功',
+            type: 'success'
+          })
+          scope.loadList()
+        })
+      })
     },
     backToList() {
       this.showList = true;

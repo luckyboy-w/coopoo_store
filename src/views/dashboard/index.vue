@@ -144,7 +144,7 @@
 
       <div><div id="main" style="width: 100%;height:600px;"></div></div>
     </div>
-    <div v-if="this.accountType == 4"><img src="../../assets/401_images/401.gif" /></div>
+    <div v-if="this.accountType == 4"><img style="width: 100%;height: 100%;" src="../../assets/partnerIndex.png" /></div>
   </div>
 </template>
 
