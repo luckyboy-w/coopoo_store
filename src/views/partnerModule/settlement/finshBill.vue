@@ -87,13 +87,10 @@ export default {
     },
     loadList() {
       let scope = this;
-      let param = {
-        settled:scope.searchParam,
-        settleStatus:2
-      }
-      postMethod('/settlement/partner/list/myself', param).then(res => {
-       scope.settledData.list = res.data.settledList.records;
-       scope.settledData.total = res.data.settledList.total;
+      let param = scope.searchParam
+      postMethod('/settlement/partner/list/settled', param).then(res => {
+       scope.settledData.list = res.data.records;
+       scope.settledData.total = res.data.total;
        scope.showPagination = scope.settledData.total == 0;
       });
     }

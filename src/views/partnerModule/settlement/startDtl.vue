@@ -84,13 +84,10 @@ export default {
   methods: {
     loadList() {
       let scope = this
-      let param = {
-        allowSettleItem:scope.searchParam,
-        settleStatus:1
-      }
-      postMethod('/settlement/partner/item/myself', param).then(res => {
-        scope.dataList.list = res.data.allowSettleItemList.records;
-        scope.dataList.total = res.data.allowSettleItemList.total;
+      let param = scope.searchParam
+      postMethod('/settlement/partner/item/list/allow-settle', param).then(res => {
+        scope.dataList.list = res.data.records;
+        scope.dataList.total = res.data.total;
         scope.showPagination = scope.dataList.total == 0;
       });
     },

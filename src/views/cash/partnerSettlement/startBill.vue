@@ -117,13 +117,10 @@ export default {
     },
     loadList() {
       let scope = this;
-      let param = {
-        allowSettle:scope.searchParam,
-        settleStatus:1
-      }
-      postMethod('/settlement/partner/list', param).then(res => {
-        scope.allowSettleData.list = res.data.allowSettleList.records;
-        scope.allowSettleData.total = res.data.allowSettleList.total;
+      let param = scope.searchParam
+      postMethod('/settlement/partner/list/allow-settle', param).then(res => {
+        scope.allowSettleData.list = res.data.records;
+        scope.allowSettleData.total = res.data.total;
         scope.showPagination = scope.allowSettleData.total == 0;
       });
     }

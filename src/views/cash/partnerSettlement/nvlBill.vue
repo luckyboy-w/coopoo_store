@@ -105,13 +105,10 @@ export default {
     },
     loadList() {
       let scope = this;
-      let param =  {
-        noSettle:scope.searchParam,
-        settleStatus:0
-      }
-      postMethod('/settlement/partner/list', param).then(res => {
-        scope.noBillData.list = res.data.noSettleList.records;
-        scope.noBillData.total = res.data.noSettleList.total;
+      let param =  scope.searchParam
+      postMethod('/settlement/partner/list/no-settle', param).then(res => {
+        scope.noBillData.list = res.data.records;
+        scope.noBillData.total = res.data.total;
         scope.showPagination = scope.noBillData.total == 0;
       });
     }

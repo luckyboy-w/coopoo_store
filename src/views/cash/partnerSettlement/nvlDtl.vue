@@ -83,13 +83,10 @@ export default {
     // 未结算
     loadList() {
       let scope = this
-      let param = {
-        noSettleItem:scope.searchParam,
-        settleStatus:0
-      }
-      postMethod('/settlement/partner/item/list', param).then(res => {
-        scope.dataList.list = res.data.noSettleItemList.records;
-        scope.dataList.total = res.data.noSettleItemList.total;
+      let param = scope.searchParam
+      postMethod('/settlement/partner/item/list/no-settle', param).then(res => {
+        scope.dataList.list = res.data.records;
+        scope.dataList.total = res.data.total;
         scope.showPagination = scope.dataList.total == 0;
       });
     },

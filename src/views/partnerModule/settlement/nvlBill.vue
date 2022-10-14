@@ -13,7 +13,14 @@
       <div class="tabTd"><el-button @click="search()" type="primary">查询</el-button></div>
     </div>
     <el-table border ref="dtlTable" :data="dataList.list" style="width: 100%; margin-bottom: 20px;" row-key="id">
-      <el-table-column prop="orderNo" label="订单编号" />
+      <el-table-column prop="orderNo" label="订单编号">
+        <template slot-scope="scope">
+          {{scope.row.orderNo}}
+          <el-tag effect="light" style="color: white;background-color: #409EFF;" size="mini" v-if="scope.row.isVipOrder==1">
+            专属
+          </el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="accountDate" label="入账月份" />
       <el-table-column prop="orderAmount" label="订单金额" />
       <el-table-column prop="orderPayAmount" label="实付金额" />
@@ -67,13 +74,10 @@ export default {
     // 未结算
     loadList() {
       let scope = this
-      let param = {
-        noSettleItem:scope.searchParam,
-        settleStatus:0
-      }
-      postMethod('/settlement/partner/list/myself', param).then(res => {
-        scope.dataList.list = res.data.noSettleList.records;
-        scope.dataList.total = res.data.noSettleList.total;
+      let param = scope.searchParam
+      postMethod('/settlement/partner/item/list/no-settle', param).then(res => {
+        scope.dataList.list = res.data.records;
+        scope.dataList.total = res.data.total;
         scope.showPagination = scope.dataList.total == 0;
       });
     },
