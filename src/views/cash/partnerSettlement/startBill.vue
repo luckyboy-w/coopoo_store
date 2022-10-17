@@ -18,7 +18,7 @@
           <div>入账月份：</div>
           <div><el-date-picker v-model="searchParam.accountDate" type="month" value-format="yyyy-MM" placeholder="选择月"></el-date-picker></div>
         </div>
-        <div class="tabTd"><el-button @click="search()" type="primary">查询</el-button></div>
+        <div class="tabTd"><el-button @click="search()" type="primary">查询</el-button><el-button @click="exportData()" icon="el-icon-download">导出</el-button></div>
       </div>
       <el-table border ref="allowSettleData" :data="allowSettleData.list" style="width: 100%; margin-bottom: 20px;" row-key="id">
         <el-table-column prop="settleNo" label="结算单号" />
@@ -80,6 +80,19 @@ export default {
     this.loadList();
   },
   methods: {
+    exportData() {
+      let exportParam = [];
+    
+      let param = JSON.parse(JSON.stringify(this.searchParam));
+      delete param.pageSize;
+      delete param.pageNum;
+    
+      for (let key in param) {
+        exportParam.push(key + '=' + param[key]);
+      }
+      exportParam.push('token=' + getToken());
+      window.open(process.env.VUE_APP_BASE_API + '/excel/settlement/partner/allow-settle/list/export?' + exportParam.join('&'));
+    },
     search() {
       let that = this;
       this.searchParam.pageNum = 1;
