@@ -16,7 +16,7 @@
         <el-table-column prop="settleNo" label="结算单号" />
         <el-table-column prop="accountDate" label="入账月份" />
         <el-table-column prop="orderAmount" label="订单金额" />
-        <el-table-column prop="payAmount" label="实付金额" />
+        <el-table-column prop="orderPayAmount" label="实付金额" />
         <el-table-column prop="partnerSettleAmount" label="合伙人佣金" />
         <el-table-column label="操作">
           <template slot-scope="scope">

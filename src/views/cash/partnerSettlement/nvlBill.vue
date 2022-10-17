@@ -19,7 +19,7 @@
         <el-table-column prop="partnerName" label="合伙人名称" />
         <el-table-column prop="partnerPhoneNo" label="合伙人手机号" />
         <el-table-column prop="orderAmount" label="订单金额" />
-        <el-table-column prop="payAmount" label="实付金额" />
+        <el-table-column prop="orderPayAmount" label="实付金额" />
         <el-table-column prop="partnerSettleAmount" label="结算金额" />
         <el-table-column label="操作">
           <template slot-scope="scope">
