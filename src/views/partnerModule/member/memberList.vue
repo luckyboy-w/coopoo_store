@@ -21,7 +21,7 @@
               <el-option label="全部" value="" />
               <el-option label="普通会员" value="0" />
               <el-option label="门店" value="3" />
-              <el-option label="专属会员" value="4" />
+              <el-option label="专属会员" value="5" />
             </el-select>
           </div>
         </div>
@@ -45,11 +45,7 @@
           <el-table ref="mainTable" :data="tableData" style="width: 100%; margin-bottom: 20px;" row-key="id"
             :header-cell-style="{'text-align':'center'}" :cell-style="{'text-align':'center'}" border>
             <el-table-column prop="userName" label="用户昵称"></el-table-column>
-            <el-table-column prop="accountType" label="会员类型">
-              <template slot-scope="scope">
-                {{ scope.row.accountType | memberType}}
-              </template>
-            </el-table-column>
+            <el-table-column prop="memberTypeStr" label="会员类型"></el-table-column>
             <el-table-column prop="phoneNo" label="手机号" width="150px"></el-table-column>
             <el-table-column prop="orderPayAmount" label="消费金额"></el-table-column>
             <el-table-column prop="currBeanQty" label="靠谱豆" ></el-table-column>
@@ -368,7 +364,14 @@
       },
       loadList() {
         let scope = this;
-        getMethod("/member/search-partner-extension-member-list", this.searchParam).then(
+        let param=JSON.parse(JSON.stringify(this.searchParam))
+        if(this.searchParam.accountType==5){
+          param.accountType=''
+          param.vipLevel=1
+        }else{
+          param.vipLevel=''
+        }
+        getMethod("/member/search-partner-extension-member-list", param).then(
           res => {
             scope.tableData = res.data.records;
             scope.tableData.forEach(i => {
