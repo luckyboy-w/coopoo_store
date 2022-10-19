@@ -28,7 +28,7 @@
         <el-table-column prop="orderAmount" label="订单金额" />
         <el-table-column prop="orderPayAmount" label="实付金额" />
         <el-table-column prop="partnerSettleAmount" label="合伙人佣金" />
-        <el-table-column label="操作">
+        <el-table-column label="操作" fixed="right" width="180px">
           <template slot-scope="scope">
             <el-button size="mini" type="primary" @click="confirmed(scope.row)">结算</el-button>
             <el-button size="mini" type="primary" @click="findBillDtl(scope.row)">查看明细</el-button>
@@ -82,11 +82,11 @@ export default {
   methods: {
     exportData() {
       let exportParam = [];
-    
+
       let param = JSON.parse(JSON.stringify(this.searchParam));
       delete param.pageSize;
       delete param.pageNum;
-    
+
       for (let key in param) {
         exportParam.push(key + '=' + param[key]);
       }
@@ -105,7 +105,7 @@ export default {
         cancelButtonText: '取消',
         type: 'success'
       }).then(() => {
-        postMethod('/settlement/partner/confirm/' + {settleNo:row.settleNo} ).then(res => {
+        postMethod('/settlement/partner/confirm/' +row.settleNo ).then(res => {
           this.$message({
             message: '操作成功',
             type: 'success'
