@@ -28,7 +28,7 @@
       <el-table-column prop="partnerSettleAmount" label="合伙人佣金" />
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button size="mini" type="primary" @click="orderDtl(scope.row)">订单详情</el-button>
+          <el-button size="mini" type="primary" v-if="scope.row.orderType!='M'" @click="orderDtl(scope.row)">订单详情</el-button>
         </template>
       </el-table-column>
     </el-table>
