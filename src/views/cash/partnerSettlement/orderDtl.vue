@@ -321,7 +321,7 @@
        let param = {
            orderNo: this.orderNo
          }
-         getMethod('/order/goods-order-detail', param).then(res => {
+         getMethod('/order/get-order-info', param).then(res => {
            this.showOrdDtl = true
            if (res.data.expressRouteInfoList && res.data.expressRouteInfoList.length >= 1) {
              res.data.expressRouteInfoList.forEach(item => {
