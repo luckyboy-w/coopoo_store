@@ -267,13 +267,13 @@
           <el-table :data="ordDtl.orderItemList" border>
             <el-table-column align="center" header-align="center" prop="goodsImage" label="商品图片">
               <template slot-scope="scope">
-                <el-avatar shape="square" :size="150" :src="scope.row.goodsImage"></el-avatar>
+                <el-avatar shape="square" :size="80" :src="scope.row.goodsImage"></el-avatar>
               </template>
             </el-table-column>
             <el-table-column align="center" header-align="center" prop="goodsName" label="商品名称"></el-table-column>
             <el-table-column align="center" header-align="center" prop="skuText" label="规格"></el-table-column>
             <el-table-column align="center" header-align="center" prop="goodsPrice" label="商品单价"></el-table-column>
-            <el-table-column align="center" header-align="center" prop="goodsNum" label="商品数量" width="150px">
+            <el-table-column align="center" header-align="center" prop="goodsNum" label="商品数量">
             </el-table-column>
             <el-table-column align="center" header-align="center" label="商品总价">
               <template slot-scope="scope">
